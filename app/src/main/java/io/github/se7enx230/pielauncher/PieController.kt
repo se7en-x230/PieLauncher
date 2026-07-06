@@ -28,18 +28,24 @@ class PieController {
     )
         private set
 
+    var pointerDown by mutableStateOf(false)
+        private set
+
+    var dragStarted by mutableStateOf(false)
+        private set
+
     fun fingerDown(
         position: Offset,
         screenHeight: Float
     ) {
 
+        pointerDown = true
+        dragStarted = false
+
         currentProfile =
             when {
-
                 position.y < screenHeight / 3f -> 0
-
                 position.y < screenHeight * 2f / 3f -> 1
-
                 else -> 2
             }
 
@@ -53,6 +59,8 @@ class PieController {
     fun fingerMove(
         position: Offset
     ) {
+
+        dragStarted = true
 
         val distance = hypot(
             (position.x - state.center.x).toDouble(),
@@ -77,6 +85,12 @@ class PieController {
         state = state.copy(
             selectedSlice = slot
         )
+    }
+
+    fun fingerUp() {
+
+        pointerDown = false
+        dragStarted = false
     }
 
     fun selectedSlice(): Int =
