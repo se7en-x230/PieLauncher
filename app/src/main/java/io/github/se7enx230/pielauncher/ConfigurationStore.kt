@@ -5,7 +5,12 @@ import android.content.Context
 object ConfigurationStore {
 
     private const val PREFS = "pie_launcher"
-    private const val PREFIX = "slice_"
+    private const val PROFILE_COUNT = 3
+
+    private fun key(
+        profile: Int,
+        slot: Int
+    ) = "profile_${profile}_slot_$slot"
 
     fun load(
         context: Context
@@ -16,49 +21,70 @@ object ConfigurationStore {
             Context.MODE_PRIVATE
         )
 
-        val slices = MutableList<AppInfo?>(PieConstants.SliceCount) {
-            null
+        val profiles = MutableList(PROFILE_COUNT) { profile ->
+
+            val slots = MutableList<AppInfo?>(
+                FanSlots.SlotCount
+            ) { slot ->
+
+                prefs.getString(
+                    key(profile, slot),
+                    null
+                )?.let { packageName ->
+
+                    AppRegistry.find(
+                        context,
+                        packageName
+                    )
+                }
+            }
+
+            Profile(
+                slots = slots
+            )
         }
 
-        repeat(PieConstants.SliceCount) { slice ->
-
-            val packageName = prefs.getString(
-                PREFIX + slice,
-                null
-            ) ?: return@repeat
-
-            slices[slice] =
-                AppRegistry.find(
-                    context,
-                    packageName
-                )
-        }
-
+        //
         // First run defaults
-        if (slices.all { it == null }) {
+        //
+        if (profiles.all { profile ->
+                profile.slots.all { it == null }
+            }) {
+
+            val defaults =
+                profiles[0].slots.toMutableList()
 
             AppRegistry.find(
                 context,
                 "eu.faircode.email"
             )?.let {
-                slices[0] = it
+                defaults[0] = it
             }
 
             AppRegistry.find(
                 context,
                 "com.whatsapp"
             )?.let {
-                slices[1] = it
+                defaults[1] = it
             }
+
+            profiles[0] = Profile(defaults)
+
+            val configuration =
+                PieConfiguration(
+                    profiles = profiles
+                )
 
             save(
                 context,
-                PieConfiguration(slices)
+                configuration
             )
+
+            return configuration
         }
 
         return PieConfiguration(
-            slices = slices
+            profiles = profiles
         )
     }
 
@@ -74,18 +100,29 @@ object ConfigurationStore {
 
         prefs.edit().apply {
 
-            configuration.slices.forEachIndexed { index, app ->
+            configuration.profiles.forEachIndexed { profileIndex, profile ->
 
-                if (app == null) {
+                profile.slots.forEachIndexed { slotIndex, app ->
 
-                    remove(PREFIX + index)
+                    if (app == null) {
 
-                } else {
+                        remove(
+                            key(
+                                profileIndex,
+                                slotIndex
+                            )
+                        )
 
-                    putString(
-                        PREFIX + index,
-                        app.packageName
-                    )
+                    } else {
+
+                        putString(
+                            key(
+                                profileIndex,
+                                slotIndex
+                            ),
+                            app.packageName
+                        )
+                    }
                 }
             }
 

@@ -12,8 +12,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
@@ -25,14 +25,21 @@ fun PieOverlay() {
         PieController()
     }
 
+    var screenWidth by remember {
+        mutableIntStateOf(0)
+    }
+
+    var screenHeight by remember {
+        mutableIntStateOf(0)
+    }
+
     var configuration by remember {
         mutableStateOf(
             ConfigurationStore.load(context)
         )
     }
 
-    // -1 means no slice is currently being edited.
-    var editingSlice by remember {
+    var editingSlot by remember {
         mutableIntStateOf(-1)
     }
 
@@ -42,71 +49,87 @@ fun PieOverlay() {
 
     LaunchedEffect(Unit) {
 
-        apps.forEach { app ->
+        apps.forEach {
             Log.d(
                 "PieOverlay",
-                "${app.label} : ${app.packageName}"
+                "${it.label} : ${it.packageName}"
             )
         }
 
-        // Temporary until long-press is implemented.
         controller.enterEditMode()
     }
 
-    val icons = remember(configuration) {
+    val icons = List(FanSlots.SlotCount) { slot ->
 
-        List(PieConstants.SliceCount) { slice ->
-
-            configuration.slices[slice]?.let { app ->
+        configuration
+            .profiles[controller.currentProfile]
+            .slots[slot]
+            ?.let {
                 IconLoader.load(
                     context,
-                    app
+                    it
                 )
             }
-        }
     }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .pointerInput(Unit) {
+            .onSizeChanged {
+
+                screenWidth = it.width
+                screenHeight = it.height
+            }
+            .pointerInput(
+                screenWidth,
+                screenHeight
+            ) {
 
                 detectDragGestures(
 
                     onDragStart = { offset ->
-                        controller.fingerDown(offset)
+
+                        controller.layout =
+                            if (offset.x < screenWidth / 2f)
+                                LauncherLayout.LEFT_HAND
+                            else
+                                LauncherLayout.RIGHT_HAND
+
+                        controller.fingerDown(
+                            offset,
+                            screenHeight.toFloat()
+                        )
                     },
 
                     onDrag = { change, _ ->
-                        controller.fingerMove(change.position)
+
+                        controller.fingerMove(
+                            change.position
+                        )
                     },
 
                     onDragEnd = {
 
-                        val slice = controller.selectedSlice()
+                        val slot =
+                            controller.selectedSlice()
 
-                        if (slice == -1) {
+                        if (slot == -1)
                             return@detectDragGestures
-                        }
 
                         if (controller.state.editMode) {
 
-                            editingSlice = slice
-
-                            Log.d(
-                                "PieOverlay",
-                                "Editing slice: $editingSlice"
-                            )
-
+                            editingSlot = slot
                             return@detectDragGestures
                         }
 
-                        configuration.slices
-                            .getOrNull(slice)
-                            ?.let { app ->
+                        configuration
+                            .profiles[controller.currentProfile]
+                            .slots[slot]
+                            ?.let {
+
                                 Launcher.launch(
                                     context,
-                                    app
+                                    it
                                 )
                             }
                     }
@@ -114,11 +137,59 @@ fun PieOverlay() {
             }
     ) {
 
-        PieMenu(
+        FanMenu(
             state = controller.state,
-            icons = icons
+            icons = icons,
+            layout = controller.layout
         )
 
-        // Dialog will be connected in the next step.
+        if (editingSlot != -1) {
+
+            AppChooserDialog(
+
+                apps = apps,
+
+                onDismiss = {
+
+                    editingSlot = -1
+
+                    // Stay in edit mode while developing.
+                    controller.enterEditMode()
+                },
+
+                onAppSelected = { app ->
+
+                    val profiles =
+                        configuration.profiles.toMutableList()
+
+                    val slots =
+                        profiles[controller.currentProfile]
+                            .slots
+                            .toMutableList()
+
+                    slots[editingSlot] = app
+
+                    profiles[controller.currentProfile] =
+                        Profile(slots)
+
+                    val newConfiguration =
+                        configuration.copy(
+                            profiles = profiles
+                        )
+
+                    configuration = newConfiguration
+
+                    ConfigurationStore.save(
+                        context,
+                        newConfiguration
+                    )
+
+                    editingSlot = -1
+
+                    // Stay in edit mode while developing.
+                    controller.enterEditMode()
+                }
+            )
+        }
     }
 }
