@@ -24,7 +24,6 @@ fun FanMenu(
     Canvas(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
     ) {
 
         val iconSize = PieConstants.IconSize.toPx()
