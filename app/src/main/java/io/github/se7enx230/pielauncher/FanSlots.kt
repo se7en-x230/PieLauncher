@@ -10,25 +10,39 @@ object FanSlots {
 
     const val SlotCount = 6
 
-    private const val Radius = 230f
+    /*
+     * Bigger fan radius.
+     *
+     * Trigger position stays the same.
+     * Icon size stays the same.
+     * Icons are simply further apart.
+     */
+    private const val Radius = 360f
 
     /*
      * Thumb fan.
      *
-     * The fan always wraps around the thumb.
-     *
      * RIGHT_HAND
      *
-     *      (
+     *          0
+     *       1
+     *    2
+     *         ●|
+     *    3
+     *       4
+     *          5
      *
      * LEFT_HAND
      *
-     *      )
+     * 0
+     *    1
+     *       2
+     * |●
+     *       3
+     *    4
+     * 5
      */
 
-    // Degrees from the horizontal.
-    // Negative = above trigger.
-    // Positive = below trigger.
     private val angles = listOf(
         -65f,
         -40f,
