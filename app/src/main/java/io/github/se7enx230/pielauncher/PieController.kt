@@ -10,7 +10,7 @@ import kotlin.math.hypot
 class PieController {
 
     companion object {
-        private const val DEAD_ZONE_RADIUS = 48f
+        private const val DEAD_ZONE_RADIUS = 72f
     }
 
     var state by mutableStateOf(PieState())

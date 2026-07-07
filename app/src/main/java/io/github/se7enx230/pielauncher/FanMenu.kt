@@ -1,5 +1,6 @@
 package io.github.se7enx230.pielauncher
 
+import androidx.compose.ui.graphics.StrokeCap
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -8,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
@@ -28,30 +28,8 @@ fun FanMenu(
     ) {
 
         val iconSize = PieConstants.IconSize.toPx()
-        val selectionRadius = PieConstants.SelectionRadius.toPx()
         val deadZoneRadius = PieConstants.DeadZoneRadius.toPx()
 
-        // Dead zone
-        drawCircle(
-            color = Color.White,
-            radius = deadZoneRadius,
-            center = state.center
-        )
-
-        if (state.editMode) {
-
-            drawContext.canvas.nativeCanvas.drawText(
-                "E",
-                state.center.x,
-                state.center.y + 12f,
-                Paint().apply {
-                    color = android.graphics.Color.BLACK
-                    textAlign = Paint.Align.CENTER
-                    textSize = 40f
-                    isAntiAlias = true
-                }
-            )
-        }
 
         repeat(FanSlots.SlotCount) { slot ->
 
@@ -64,43 +42,41 @@ fun FanMenu(
             if (slot == state.selectedSlice) {
 
                 drawLine(
-                    color = Color.White,
-                    start = state.center,
-                    end = slotCenter,
-                    strokeWidth = 2.dp.toPx()
-                )
+    color = Color.White,
+    start = state.center,
+    end = slotCenter,
+    strokeWidth = 4.dp.toPx(),
+    cap = StrokeCap.Round
+)
 
-                drawCircle(
-                    color = Color.Yellow,
-                    radius = selectionRadius,
-                    center = slotCenter,
-                    style = Stroke(
-                        width = 3.dp.toPx()
-                    )
-                )
             }
 
-            val icon = icons.getOrNull(slot)
+val icon = icons.getOrNull(slot)
 
-            if (icon != null) {
+if (icon != null) {
 
-                drawImage(
-                    image = icon,
-                    srcOffset = IntOffset.Zero,
-                    srcSize = IntSize(
-                        icon.width,
-                        icon.height
-                    ),
-                    dstOffset = IntOffset(
-                        (slotCenter.x - iconSize / 2).toInt(),
-                        (slotCenter.y - iconSize / 2).toInt()
-                    ),
-                    dstSize = IntSize(
-                        iconSize.toInt(),
-                        iconSize.toInt()
-                    )
-                )
-            }
-        }
+    val drawSize =
+        if (slot == state.selectedSlice)
+            iconSize * 1.6f
+        else
+            iconSize
+
+    drawImage(
+        image = icon,
+        srcOffset = IntOffset.Zero,
+        srcSize = IntSize(
+            icon.width,
+            icon.height
+        ),
+        dstOffset = IntOffset(
+            (slotCenter.x - drawSize / 2).toInt(),
+            (slotCenter.y - drawSize / 2).toInt()
+        ),
+        dstSize = IntSize(
+            drawSize.toInt(),
+            drawSize.toInt()
+        )
+    )
+}        }
     }
 }

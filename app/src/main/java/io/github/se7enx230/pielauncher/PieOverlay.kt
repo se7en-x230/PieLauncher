@@ -1,5 +1,8 @@
 package io.github.se7enx230.pielauncher
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
@@ -20,13 +23,16 @@ import androidx.compose.ui.platform.LocalContext
 fun PieOverlay() {
 
     val context = LocalContext.current
-
+    val haptic = LocalHapticFeedback.current
     val controller = remember {
         PieController()
     }
 
     var screenWidth by remember {
         mutableIntStateOf(0)
+    }
+    var lastSelectedSlice by remember {
+         mutableIntStateOf(-1)
     }
 
     var screenHeight by remember {
@@ -43,20 +49,23 @@ fun PieOverlay() {
         mutableIntStateOf(-1)
     }
 
+var showLibrary by remember {
+    mutableStateOf(false)
+}
+
     val apps = remember {
         AppRegistry.installedApps(context)
     }
 
-    LaunchedEffect(Unit) {
-
+LaunchedEffect(Unit) {
         apps.forEach {
             Log.d(
                 "PieOverlay",
                 "${it.label} : ${it.packageName}"
             )
-        }
+                }
 
-        controller.enterEditMode()
+     controller.exitEditMode()
     }
 
     val icons = List(FanSlots.SlotCount) { slot ->
@@ -71,7 +80,9 @@ fun PieOverlay() {
                 )
             }
     }
-
+BackHandler(enabled = showLibrary) {
+    showLibrary = false
+}
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -88,7 +99,7 @@ fun PieOverlay() {
                 detectDragGestures(
 
                     onDragStart = { offset ->
-
+lastSelectedSlice = -1
                         controller.layout =
                             if (offset.x < screenWidth / 2f)
                                 LauncherLayout.LEFT_HAND
@@ -103,10 +114,24 @@ fun PieOverlay() {
 
                     onDrag = { change, _ ->
 
-                        controller.fingerMove(
-                            change.position
-                        )
-                    },
+    controller.fingerMove(
+        change.position
+    )
+
+    val current = controller.selectedSlice()
+
+    if (
+        current != -1 &&
+        current != lastSelectedSlice
+    ) {
+
+        haptic.performHapticFeedback(
+            HapticFeedbackType.TextHandleMove
+        )
+
+        lastSelectedSlice = current
+    }
+},
 
                     onDragEnd = {
 
@@ -116,7 +141,7 @@ fun PieOverlay() {
                         if (slot == -1)
                             return@detectDragGestures
 
-                        if (controller.state.editMode) {
+                        if (controller.isEditMode) {
 
                             editingSlot = slot
                             return@detectDragGestures
@@ -128,33 +153,77 @@ fun PieOverlay() {
                             ?.let {
 
                                 Launcher.launch(
-                                    context,
-                                    it
-                                )
+                        context,
+                        it
+                    )
+                    
+                    (context as? android.app.Activity)?.finish()
                             }
                     }
                 )
             }
     ) {
 
-        FanMenu(
-            state = controller.state,
-            icons = icons,
-            layout = controller.layout
-        )
+if (showLibrary) {
 
-        if (editingSlot != -1) {
+AppChooserDialog(
+    apps = apps,
+    showRemove = false,
+        onDismiss = {
+            showLibrary = false
+        },
+
+        onAppSelected = { app ->
+
+            if (app != null) {
+
+                Launcher.launch(
+                    context,
+                    app
+                )
+
+                (context as? android.app.Activity)?.finish()
+            }
+
+            showLibrary = false
+        }
+    )
+
+} else {
+
+    FanMenu(
+        state = controller.state,
+        icons = icons,
+        layout = controller.layout
+    )
+}
+CenterButton(
+    center = controller.state.center,
+    editMode = controller.isEditMode,
+
+    onEnterEditMode = {
+        controller.enterEditMode()
+    },
+
+    onExitEditMode = {
+        controller.exitEditMode()
+    },
+
+    onOpenLibrary = {
+        showLibrary = true
+    }
+)
+if (editingSlot != -1) {
 
             AppChooserDialog(
-
-                apps = apps,
+    apps = apps,
+    showRemove = true,
 
                 onDismiss = {
 
                     editingSlot = -1
 
-                    // Stay in edit mode while developing.
-                    controller.enterEditMode()
+                    controller.exitEditMode()
                 },
 
                 onAppSelected = { app ->
@@ -186,8 +255,7 @@ fun PieOverlay() {
 
                     editingSlot = -1
 
-                    // Stay in edit mode while developing.
-                    controller.enterEditMode()
+                    controller.exitEditMode()
                 }
             )
         }

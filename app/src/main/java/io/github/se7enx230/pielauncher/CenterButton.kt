@@ -1,76 +1,78 @@
 package io.github.se7enx230.pielauncher
 
-import android.graphics.Paint
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
 
 @Composable
 fun CenterButton(
     center: Offset,
     editMode: Boolean,
-    profileName: String,
-    onLongPress: () -> Unit
+    onEnterEditMode: () -> Unit,
+onExitEditMode: () -> Unit,
+onOpenLibrary: () -> Unit
 ) {
 
-    Canvas(
+    val radius = PieConstants.DeadZoneRadius
 
+    val radiusPx = with(LocalDensity.current) {
+        radius.toPx()
+    }
+
+    Box(
         modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-
-                detectTapGestures(
-
-                    onLongPress = {
-
-                        onLongPress()
-                    }
+            .offset {
+                IntOffset(
+                    (center.x - radiusPx).toInt(),
+                    (center.y - radiusPx).toInt()
                 )
             }
+            .size(
+    if (editMode)
+        radius
+    else
+        radius / 6
+)
+.background(
+    if (editMode)
+        Color.White
+    else
+        Color.White.copy(alpha = 0.35f),
+    CircleShape
+)
+.combinedClickable(
+                onClick = {
+                    if (editMode) {
+                        onExitEditMode()
+    } else {
+        onOpenLibrary()
+                    }
+                },
+                onLongClick = {
+                    if (!editMode) {
+                        onEnterEditMode()
+                    }
+                }
+            ),
+        contentAlignment = Alignment.Center
     ) {
 
-        drawCircle(
-            color = Color.White,
-            radius = PieConstants.DeadZoneRadius.toPx(),
-            center = center
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-
-            if (editMode) "E" else "",
-
-            center.x,
-            center.y + 8f,
-
-            Paint().apply {
-
-                color = android.graphics.Color.BLACK
-                textAlign = Paint.Align.CENTER
-                textSize = 40f
-                isAntiAlias = true
-            }
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-
-            profileName,
-
-            center.x,
-            center.y + 42f,
-
-            Paint().apply {
-
-                color = android.graphics.Color.WHITE
-                textAlign = Paint.Align.CENTER
-                textSize = 24f
-                isAntiAlias = true
-            }
-        )
+        if (editMode) {
+            Text(
+                text = "E",
+                color = Color.Black
+            )
+        }
     }
 }
