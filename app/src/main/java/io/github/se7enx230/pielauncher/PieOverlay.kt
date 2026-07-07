@@ -167,7 +167,7 @@ lastSelectedSlice = -1
 
 if (showLibrary) {
 
-AppChooserDialog(
+AppPickerPanel(
     apps = apps,
     showRemove = false,
         onDismiss = {
@@ -216,49 +216,48 @@ CenterButton(
 )
 if (editingSlot != -1) {
 
-            AppChooserDialog(
-    apps = apps,
-    showRemove = true,
+    AppPickerPanel(
+        apps = apps,
+        showRemove = true,
 
-                onDismiss = {
+        onDismiss = {
+            editingSlot = -1
+            controller.exitEditMode()
+        },
 
-                    editingSlot = -1
+        onAppSelected = { app ->
 
-                    controller.exitEditMode()
-                },
+            val profiles =
+                configuration.profiles.toMutableList()
 
-                onAppSelected = { app ->
+            val slots =
+                profiles[controller.currentProfile]
+                    .slots
+                    .toMutableList()
 
-                    val profiles =
-                        configuration.profiles.toMutableList()
+            slots[editingSlot] = app
 
-                    val slots =
-                        profiles[controller.currentProfile]
-                            .slots
-                            .toMutableList()
+            profiles[controller.currentProfile] =
+                Profile(slots)
 
-                    slots[editingSlot] = app
+            val newConfiguration =
+                configuration.copy(
+                    profiles = profiles
+                )
 
-                    profiles[controller.currentProfile] =
-                        Profile(slots)
+            configuration = newConfiguration
 
-                    val newConfiguration =
-                        configuration.copy(
-                            profiles = profiles
-                        )
-
-                    configuration = newConfiguration
-
-                    ConfigurationStore.save(
-                        context,
-                        newConfiguration
-                    )
-
-                    editingSlot = -1
-
-                    controller.exitEditMode()
-                }
+            ConfigurationStore.save(
+                context,
+                newConfiguration
             )
+
+            editingSlot = -1
+            controller.exitEditMode()
         }
-    }
+    )
+}
+
+}
+
 }
