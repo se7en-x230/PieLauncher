@@ -9,10 +9,10 @@ import kotlin.math.hypot
 
 class PieController {
 
-    companion object {
-        private const val DEAD_ZONE_RADIUS = 72f
-    }
-
+companion object {
+    private const val DEAD_ZONE_RADIUS = 72f
+    private const val ACTIVATION_RADIUS = 160f
+}
     var state by mutableStateOf(PieState())
         private set
 
@@ -52,35 +52,34 @@ currentProfile =
         )
     }
 
-    fun fingerMove(
-        position: Offset
-    ) {
+fun fingerMove(
+    position: Offset
+) {
 
-        val distance = hypot(
-            (position.x - state.center.x).toDouble(),
-            (position.y - state.center.y).toDouble()
-        ).toFloat()
+    val distance = hypot(
+        (position.x - state.center.x).toDouble(),
+        (position.y - state.center.y).toDouble()
+    ).toFloat()
 
-        if (distance < DEAD_ZONE_RADIUS) {
-
-            state = state.copy(
-                selectedSlice = -1
-            )
-
-            return
-        }
-
-        val slot = FanSlots.closest(
-            finger = position,
-            center = state.center,
-            layout = layout
-        )
+    if (distance < ACTIVATION_RADIUS) {
 
         state = state.copy(
-            selectedSlice = slot
+            selectedSlice = -1
         )
+
+        return
     }
 
+    val slot = FanSlots.closest(
+        finger = position,
+        center = state.center,
+        layout = layout
+    )
+
+    state = state.copy(
+        selectedSlice = slot
+    )
+}
     fun selectedSlice(): Int =
         state.selectedSlice
 
