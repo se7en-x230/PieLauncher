@@ -38,17 +38,6 @@ fun FanMenu(
                 layout = layout
             )
 
-            if (slot == state.selectedSlice) {
-
-                drawLine(
-    color = Color.White,
-    start = state.center,
-    end = slotCenter,
-    strokeWidth = 4.dp.toPx(),
-    cap = StrokeCap.Round
-)
-
-            }
 
 val icon = icons.getOrNull(slot)
 
