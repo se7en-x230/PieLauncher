@@ -33,16 +33,18 @@ class PieController {
         screenHeight: Float
     ) {
 
-        currentProfile =
-            when {
+currentProfile =
+    when {
 
-                position.y < screenHeight / 3f -> 0
+        // Top profile: upper 45% of the screen
+        position.y < screenHeight * 0.45f -> 0
 
-                position.y < screenHeight * 2f / 3f -> 1
+        // Middle profile: 45% - 80%
+        position.y < screenHeight * 0.80f -> 1
 
-                else -> 2
-            }
-
+        // Bottom profile: last 20%
+        else -> 2
+    }
         state = state.copy(
             center = position,
             selectedSlice = -1,
