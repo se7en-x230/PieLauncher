@@ -52,27 +52,16 @@ onOpenLibrary: () -> Unit
     CircleShape
 )
 .combinedClickable(
-                onClick = {
-                    if (editMode) {
-                        onExitEditMode()
-    } else {
+    onClick = {
+        // No action.
+        // Releasing the finger will close the pie.
+    },
+    onLongClick = {
         onOpenLibrary()
-                    }
-                },
-                onLongClick = {
-                    if (!editMode) {
-                        onEnterEditMode()
-                    }
-                }
-            ),
+    }
+),
         contentAlignment = Alignment.Center
     ) {
 
-        if (editMode) {
-            Text(
-                text = "E",
-                color = Color.Black
-            )
-        }
     }
 }
