@@ -54,6 +54,9 @@ var showLibrary by remember {
     mutableStateOf(false)
 }
 
+var openLibraryOnRelease by remember {
+    mutableStateOf(false)
+}
     val apps = remember {
         AppRegistry.installedApps(context)
     }
@@ -132,28 +135,36 @@ lastSelectedSlice = -1
     }
 },
 
-                    onDragEnd = {
 
-                        val slot =
-                            controller.selectedSlice()
+onDragEnd = {
+
+    if (openLibraryOnRelease) {
+
+        openLibraryOnRelease = false
+        showLibrary = true
+
+        return@detectDragGestures
+    }
+
+    val slot =
+        controller.selectedSlice()
 
                         if (slot == -1)
                             return@detectDragGestures
 
 
-                        configuration
-                            .profiles[controller.currentProfile]
-                            .slots[slot]
-                            ?.let {
+configuration
+    .profiles[controller.currentProfile]
+    .slots[slot]
+    ?.let {
 
-                                Launcher.launch(
-                        context,
-                        it
-                    )
-                    
-                    (context as? android.app.Activity)?.finish()
-                            }
-                    }
+        Launcher.launch(
+            context,
+            it
+        )
+
+        (context as? android.app.Activity)?.finish()
+    }                    }
                 )
             }
     ) {
