@@ -65,8 +65,6 @@ LaunchedEffect(Unit) {
                 "${it.label} : ${it.packageName}"
             )
                 }
-
-     controller.exitEditMode()
     }
 
     val icons = List(FanSlots.SlotCount) { slot ->
@@ -142,11 +140,6 @@ lastSelectedSlice = -1
                         if (slot == -1)
                             return@detectDragGestures
 
-                        if (controller.isEditMode) {
-
-                            editingSlot = slot
-                            return@detectDragGestures
-                        }
 
                         configuration
                             .profiles[controller.currentProfile]
@@ -200,15 +193,11 @@ AppPickerPanel(
 }
 CenterButton(
     center = controller.state.center,
-    editMode = controller.isEditMode,
+    editMode = false,
 
-    onEnterEditMode = {
-        controller.enterEditMode()
-    },
+    onEnterEditMode = { },
 
-    onExitEditMode = {
-        controller.exitEditMode()
-    },
+    onExitEditMode = { },
 
     onOpenLibrary = {
         showLibrary = true
@@ -220,11 +209,9 @@ if (editingSlot != -1) {
         apps = apps,
         showRemove = true,
 
-        onDismiss = {
-            editingSlot = -1
-            controller.exitEditMode()
-        },
-
+onDismiss = {
+    editingSlot = -1
+},
         onAppSelected = { app ->
 
             val profiles =
@@ -253,7 +240,6 @@ if (editingSlot != -1) {
             )
 
             editingSlot = -1
-            controller.exitEditMode()
         }
     )
 }

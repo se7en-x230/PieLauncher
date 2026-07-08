@@ -23,11 +23,6 @@ companion object {
     var currentProfile by mutableIntStateOf(0)
         private set
 
-    var mode by mutableStateOf(
-        LauncherMode.NORMAL
-    )
-        private set
-
     fun fingerDown(
         position: Offset,
         screenHeight: Float
@@ -45,11 +40,11 @@ currentProfile =
         // Bottom profile: last 20%
         else -> 2
     }
-        state = state.copy(
-            center = position,
-            selectedSlice = -1,
-            editMode = mode == LauncherMode.EDIT
-        )
+state = state.copy(
+    center = position,
+    selectedSlice = -1,
+    editMode = false
+)
     }
 
 fun fingerMove(
@@ -82,35 +77,4 @@ fun fingerMove(
 }
     fun selectedSlice(): Int =
         state.selectedSlice
-
-    fun enterEditMode() {
-
-        mode = LauncherMode.EDIT
-
-        state = state.copy(
-            editMode = true,
-            selectedSlice = -1
-        )
-    }
-
-    fun exitEditMode() {
-
-        mode = LauncherMode.NORMAL
-
-        state = state.copy(
-            editMode = false,
-            selectedSlice = -1
-        )
-    }
-
-    fun toggleEditMode() {
-
-        if (mode == LauncherMode.EDIT)
-            exitEditMode()
-        else
-            enterEditMode()
-    }
-
-    val isEditMode: Boolean
-        get() = mode == LauncherMode.EDIT
 }
