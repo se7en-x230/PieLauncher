@@ -202,12 +202,14 @@ AppPickerPanel(
         layout = controller.layout
     )
 }
-CenterButton(
-    center = controller.state.center,
-    onOpenLibrary = {
-        showLibrary = true
-    }
-)
+if (!showLibrary) {
+    CenterButton(
+        center = controller.state.center,
+        onOpenLibrary = {
+            showLibrary = true
+        }
+    )
+}
 if (editingSlot != -1) {
 
     AppPickerPanel(
