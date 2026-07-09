@@ -1,6 +1,5 @@
 package io.github.se7enx230.pielauncher
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,17 +15,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -35,7 +30,6 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun AppList(
     apps: List<AppInfo>,
-    showRemove: Boolean,
     onAppSelected: (AppInfo?) -> Unit
 ) {
 
@@ -49,19 +43,12 @@ fun AppList(
             }
     }
 
-    val focusRequester = remember { FocusRequester() }
-    val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-        keyboard?.show()
-    }
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 16.dp)
+            .padding(vertical = 26.dp)
     ) {
 
         item {
@@ -94,7 +81,6 @@ fun AppList(
 
                 modifier = Modifier
                     .fillMaxWidth()
-                    .focusRequester(focusRequester)
                     .padding(
                         horizontal = 20.dp,
                         vertical = 12.dp
@@ -125,27 +111,6 @@ fun AppList(
             )
         }
 
-        if (showRemove) {
-
-            item {
-
-                Text(
-                    text = "None",
-                    fontSize = 20.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onAppSelected(null)
-                        }
-                        .padding(
-                            horizontal = 20.dp,
-                            vertical = 12.dp
-                        )
-                )
-
-                HorizontalDivider()
-            }
-        }
 
         items(filteredApps) { app ->
 

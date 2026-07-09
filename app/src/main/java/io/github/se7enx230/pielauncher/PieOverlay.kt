@@ -173,26 +173,60 @@ if (showLibrary) {
 
 AppPickerPanel(
     apps = apps,
-    showRemove = false,
-        onDismiss = {
-            showLibrary = false
-        },
+    showRemove = editingSlot != -1,
 
-        onAppSelected = { app ->
+    onDismiss = {
+        showLibrary = false
+        editingSlot = -1
+    },
 
-            if (app != null) {
+onAppSelected = { app ->
 
-                Launcher.launch(
-                    context,
-                    app
-                )
+    if (editingSlot == -1) {
 
-                (context as? android.app.Activity)?.finish()
-            }
+        app?.let {
 
-            showLibrary = false
+            Launcher.launch(
+                context,
+                it
+            )
+
+            (context as? android.app.Activity)?.finish()
         }
-    )
+
+    } else {
+
+        val profiles =
+            configuration.profiles.toMutableList()
+
+        val slots =
+            profiles[controller.currentProfile]
+                .slots
+                .toMutableList()
+
+        slots[editingSlot] = app
+
+        profiles[controller.currentProfile] =
+            Profile(slots)
+
+        val newConfiguration =
+            configuration.copy(
+                profiles = profiles
+            )
+
+        configuration = newConfiguration
+
+        ConfigurationStore.save(
+            context,
+            newConfiguration
+        )
+
+        editingSlot = -1
+    }
+
+    showLibrary = false
+}
+)
 
 } else {
 
@@ -202,6 +236,7 @@ AppPickerPanel(
         layout = controller.layout
     )
 }
+
 if (!showLibrary) {
     CenterButton(
         center = controller.state.center,
@@ -210,47 +245,6 @@ if (!showLibrary) {
         }
     )
 }
-if (editingSlot != -1) {
-
-    AppPickerPanel(
-        apps = apps,
-        showRemove = true,
-
-onDismiss = {
-    editingSlot = -1
-},
-        onAppSelected = { app ->
-
-            val profiles =
-                configuration.profiles.toMutableList()
-
-            val slots =
-                profiles[controller.currentProfile]
-                    .slots
-                    .toMutableList()
-
-            slots[editingSlot] = app
-
-            profiles[controller.currentProfile] =
-                Profile(slots)
-
-            val newConfiguration =
-                configuration.copy(
-                    profiles = profiles
-                )
-
-            configuration = newConfiguration
-
-            ConfigurationStore.save(
-                context,
-                newConfiguration
-            )
-
-            editingSlot = -1
-        }
-    )
-}
 
 }
-
 }
