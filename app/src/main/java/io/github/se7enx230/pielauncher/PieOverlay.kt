@@ -49,7 +49,13 @@ fun PieOverlay() {
     var editingSlot by remember {
         mutableIntStateOf(-1)
     }
+var fingerDown by remember {
+    mutableStateOf(false)
+}
 
+var longPressTriggered by remember {
+    mutableStateOf(false)
+}
 var showLibrary by remember {
     mutableStateOf(false)
 }
@@ -69,7 +75,23 @@ LaunchedEffect(Unit) {
             )
                 }
     }
+LaunchedEffect(fingerDown) {
 
+    if (!fingerDown)
+        return@LaunchedEffect
+
+    kotlinx.coroutines.delay(500)
+
+    if (
+        fingerDown &&
+        controller.selectedSlice() != -1
+    ) {
+
+        editingSlot = controller.selectedSlice()
+        showLibrary = true
+        longPressTriggered = true
+    }
+}
     val icons = List(FanSlots.SlotCount) { slot ->
 
         configuration
@@ -112,6 +134,8 @@ lastSelectedSlice = -1
                             offset,
                             screenHeight.toFloat()
                         )
+fingerDown = true
+longPressTriggered = false
                     },
 
                     onDrag = { change, _ ->
@@ -137,7 +161,13 @@ lastSelectedSlice = -1
 
 
 onDragEnd = {
+fingerDown = false
+if (longPressTriggered) {
 
+    longPressTriggered = false
+
+    return@detectDragGestures
+}
     if (openLibraryOnRelease) {
 
         openLibraryOnRelease = false
@@ -146,13 +176,12 @@ onDragEnd = {
         return@detectDragGestures
     }
 
-    val slot =
-        controller.selectedSlice()
+val slot = controller.selectedSlice()
 
-                        if (slot == -1)
-                            return@detectDragGestures
-
-
+if (slot == -1) {
+    (context as? android.app.Activity)?.finish()
+    return@detectDragGestures
+}
 configuration
     .profiles[controller.currentProfile]
     .slots[slot]
