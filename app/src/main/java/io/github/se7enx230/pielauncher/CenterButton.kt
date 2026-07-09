@@ -1,12 +1,15 @@
 package io.github.se7enx230.pielauncher
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,10 +21,7 @@ import androidx.compose.ui.unit.IntOffset
 @Composable
 fun CenterButton(
     center: Offset,
-    editMode: Boolean,
-    onEnterEditMode: () -> Unit,
-onExitEditMode: () -> Unit,
-onOpenLibrary: () -> Unit
+    onOpenLibrary: () -> Unit
 ) {
 
     val radius = PieConstants.DeadZoneRadius
@@ -38,17 +38,10 @@ onOpenLibrary: () -> Unit
                     (center.y - radiusPx).toInt()
                 )
             }
-            .size(
-    if (editMode)
-        radius
-    else
-        radius / 6
-)
+.size(radius / 1)
+
 .background(
-    if (editMode)
-        Color.White
-    else
-        Color.White.copy(alpha = 0.35f),
+    Color.White.copy(alpha = 0.35f),
     CircleShape
 )
 .combinedClickable(
@@ -61,7 +54,26 @@ onOpenLibrary: () -> Unit
     }
 ),
         contentAlignment = Alignment.Center
-    ) {
+) {
 
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        repeat(3) {
+            Row {
+                repeat(3) {
+                    Box(
+                        modifier = Modifier
+                            .padding(1.dp)
+                            .size(2.dp)
+                            .background(
+                                Color.White,
+                                CircleShape
+                            )
+                    )
+                }
+            }
+        }
     }
+}
 }

@@ -204,12 +204,6 @@ AppPickerPanel(
 }
 CenterButton(
     center = controller.state.center,
-    editMode = false,
-
-    onEnterEditMode = { },
-
-    onExitEditMode = { },
-
     onOpenLibrary = {
         showLibrary = true
     }

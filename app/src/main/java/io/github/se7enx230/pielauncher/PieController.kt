@@ -35,7 +35,7 @@ currentProfile =
         position.y < screenHeight * 0.45f -> 0
 
         // Middle profile: 45% - 80%
-        position.y < screenHeight * 0.80f -> 1
+        position.y < screenHeight * 0.70f -> 1
 
         // Bottom profile: last 20%
         else -> 2

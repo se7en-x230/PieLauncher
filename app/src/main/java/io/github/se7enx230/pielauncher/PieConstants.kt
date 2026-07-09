@@ -10,7 +10,7 @@ object PieConstants {
 
     val SelectionRadius = 26.dp
 
-    val DeadZoneRadius = 20.dp
+    val DeadZoneRadius = 34.dp
 
     const val SliceCount = 8
 }
