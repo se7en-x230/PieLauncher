@@ -133,6 +133,12 @@ Install on a connected device:
 
 ---
 
+## Download
+
+The latest development APK is available in the `apk/` directory.
+
+---
+
 ## Contributing
 
 The project intentionally stays small.
