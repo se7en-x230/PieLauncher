@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import kotlin.math.hypot
 
+
 class PieController {
 
 companion object {
@@ -27,7 +28,6 @@ companion object {
         position: Offset,
         screenHeight: Float
     ) {
-
 currentProfile =
     when {
 
@@ -46,7 +46,11 @@ state = state.copy(
     editMode = false
 )
     }
-
+fun isInCenter(position: Offset): Boolean =
+    hypot(
+        (position.x - state.center.x).toDouble(),
+        (position.y - state.center.y).toDouble()
+    ) < DEAD_ZONE_RADIUS
 fun fingerMove(
     position: Offset
 ) {
@@ -75,6 +79,7 @@ fun fingerMove(
         selectedSlice = slot
     )
 }
+
     fun selectedSlice(): Int =
         state.selectedSlice
 }

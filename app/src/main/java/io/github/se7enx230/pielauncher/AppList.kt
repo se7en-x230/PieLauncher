@@ -33,89 +33,17 @@ fun AppList(
     onAppSelected: (AppInfo?) -> Unit
 ) {
 
-    var query by remember { mutableStateOf("") }
+LazyColumn(
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(bottom = 64.dp)
+) {
 
-    val filteredApps = remember(apps, query) {
-        apps
-            .sortedBy { it.label.lowercase() }
-            .filter {
-                it.label.contains(query, ignoreCase = true)
-            }
-    }
+    items(
+        apps.sortedBy { it.label.lowercase() }
+    ) { app ->
 
-    val focusManager = LocalFocusManager.current
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 26.dp)
-    ) {
-
-        item {
-
-            BasicTextField(
-                value = query,
-                onValueChange = { query = it },
-
-                singleLine = true,
-
-                textStyle = TextStyle(
-                    color = Color.White,
-                    fontSize = 22.sp
-                ),
-
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Search
-                ),
-
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-
-                        focusManager.clearFocus()
-
-                        filteredApps
-                            .firstOrNull()
-                            ?.let(onAppSelected)
-                    }
-                ),
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 20.dp,
-                        vertical = 12.dp
-                    ),
-
-                decorationBox = { innerTextField ->
-
-                    Column {
-
-                        if (query.isEmpty()) {
-
-                            Text(
-                                text = "🔍 Search...",
-                                color = Color.Gray,
-                                fontSize = 22.sp
-                            )
-                        }
-
-                        innerTextField()
-
-                        Spacer(
-                            modifier = Modifier.height(8.dp)
-                        )
-
-                        HorizontalDivider()
-                    }
-                }
-            )
-        }
-
-
-        items(filteredApps) { app ->
-
-            Text(
-                text = app.label,
+        Text(                text = app.label,
                 fontSize = 20.sp,
                 color = Color.White,
                 modifier = Modifier

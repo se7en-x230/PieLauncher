@@ -1,5 +1,7 @@
 package io.github.se7enx230.pielauncher
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalDensity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.activity.compose.BackHandler
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -19,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+
 
 @Composable
 fun PieOverlay() {
@@ -53,6 +56,10 @@ var fingerDown by remember {
     mutableStateOf(false)
 }
 
+var lastPosition by remember {
+    mutableStateOf(Offset.Zero)
+}
+
 var longPressTriggered by remember {
     mutableStateOf(false)
 }
@@ -80,16 +87,24 @@ LaunchedEffect(fingerDown) {
     if (!fingerDown)
         return@LaunchedEffect
 
-    kotlinx.coroutines.delay(500)
+    kotlinx.coroutines.delay(1500)
 
-    if (
-        fingerDown &&
-        controller.selectedSlice() != -1
-    ) {
+if (!fingerDown)
+    return@LaunchedEffect
 
-        editingSlot = controller.selectedSlice()
-        showLibrary = true
-        longPressTriggered = true
+val slice = controller.selectedSlice()
+
+if (slice != -1) {
+
+    editingSlot = slice
+    showLibrary = true
+    longPressTriggered = true
+
+} else if (controller.isInCenter(lastPosition)) {
+
+    showLibrary = true
+    longPressTriggered = true
+
     }
 }
     val icons = List(FanSlots.SlotCount) { slot ->
@@ -139,6 +154,8 @@ longPressTriggered = false
                     },
 
                     onDrag = { change, _ ->
+
+    lastPosition = change.position
 
     controller.fingerMove(
         change.position
@@ -192,7 +209,7 @@ configuration
             it
         )
 
-        (context as? android.app.Activity)?.finish()
+        // (context as? android.app.Activity)?.finish()
     }                    }
                 )
             }
@@ -220,7 +237,7 @@ onAppSelected = { app ->
                 it
             )
 
-            (context as? android.app.Activity)?.finish()
+            // (context as? android.app.Activity)?.finish()
         }
 
     } else {

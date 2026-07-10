@@ -72,20 +72,18 @@ fun AppPickerPanel(
                     HorizontalDivider()
                 }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                ) {
-
-                    AppList(
-                        apps = apps,
-                        onAppSelected = {
-                            onAppSelected(it)
-                        }
-                    )
-                }
-
+Box(
+    modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight(0.90f)
+) {
+    AppList(
+        apps = apps,
+        onAppSelected = {
+            onAppSelected(it)
+        }
+    )
+}
                 HorizontalDivider()
 
                 Text(

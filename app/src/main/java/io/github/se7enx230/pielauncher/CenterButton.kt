@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
@@ -43,15 +42,6 @@ fun CenterButton(
 .background(
     Color.White.copy(alpha = 0.35f),
     CircleShape
-)
-.combinedClickable(
-    onClick = {
-        // No action.
-        // Releasing the finger will close the pie.
-    },
-    onLongClick = {
-        onOpenLibrary()
-    }
 ),
         contentAlignment = Alignment.Center
 ) {
