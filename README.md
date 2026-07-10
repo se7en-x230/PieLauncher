@@ -14,6 +14,8 @@ The goal is to make launching your most-used apps as fast and effortless as poss
 
 ---
 
+![PieLauncher in action](screenshots/PieLauncher.gif "PieLauncher")
+
 ## Philosophy
 
 Most Android launchers optimize for discovering apps.
