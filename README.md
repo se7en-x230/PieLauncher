@@ -1,3 +1,4 @@
+![PieLauncher in action](screenshots/PieLauncher.jpg "PieLauncher")
 # PieLauncher
 
 > **A launcher built around muscle memory instead of icons.**
