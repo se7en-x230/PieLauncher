@@ -1,4 +1,5 @@
 ![PieLauncher in action](screenshots/PieLauncher.jpg "PieLauncher")
+
 # PieLauncher
 
 > **A launcher built around muscle memory instead of icons.**
@@ -136,6 +137,7 @@ Install on a connected device:
 ## Download
 
 The latest development APK is available in the `apk/` directory.
+https://github.com/se7en-x230/PieLauncher/tree/main/apk
 
 ---
 
