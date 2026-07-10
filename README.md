@@ -47,7 +47,7 @@ Just muscle memory.
 - 🎯 Radial (Pie) launcher
 - 👆 One-handed operation
 - 📱 Three independent profiles
-- 🧭 Eight configurable app slots per profile
+- 🧭 Six configurable app slots per profile
 - ✏️ Long-press editing
 - ➕ Add, replace and remove apps
 - 🔍 Searchable app drawer
