@@ -105,7 +105,11 @@ if (slice != -1) {
     showLibrary = true
     longPressTriggered = true
 
-    }
+} else {
+
+    WallpaperLauncher.open(context)
+    longPressTriggered = true
+}
 }
     val icons = List(FanSlots.SlotCount) { slot ->
 
