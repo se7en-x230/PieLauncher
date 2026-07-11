@@ -147,12 +147,15 @@ BackHandler(enabled = showLibrary) {
                     onDragStart = { offset ->
                         lastSelectedSlice = -1
 
-                        // Define edge threshold (e.g., 50dp from edge)
-                        val edgeThreshold = 50.dp.toPx()
+                        // Define edge threshold - larger area for easier triggering
+                        // Use 1/4 of screen width from each edge
+                        val edgeThreshold = screenWidth * 0.25f
                         
                         // Check if swipe started from left or right edge
                         isEdgeSwipe = offset.x < edgeThreshold || 
                                      offset.x > screenWidth - edgeThreshold
+                        
+                        Log.d("PieOverlay", "Drag start at x=${offset.x}, screenWidth=$screenWidth, edgeThreshold=$edgeThreshold, isEdgeSwipe=$isEdgeSwipe")
 
                         controller.layout =
                             if (offset.x < screenWidth / 2f)
