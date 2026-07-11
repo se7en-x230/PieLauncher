@@ -1,18 +1,12 @@
 package io.github.se7enx230.pielauncher
 
-import androidx.compose.ui.graphics.StrokeCap
-import android.graphics.Paint
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun FanMenu(

@@ -10,10 +10,6 @@ import kotlin.math.hypot
 
 class PieController {
 
-companion object {
-    private const val DEAD_ZONE_RADIUS = 72f
-    private const val ACTIVATION_RADIUS = 160f
-}
     var state by mutableStateOf(PieState())
         private set
 
@@ -54,7 +50,7 @@ fun isInCenter(position: Offset): Boolean =
     hypot(
         (position.x - state.center.x).toDouble(),
         (position.y - state.center.y).toDouble()
-    ) < DEAD_ZONE_RADIUS
+    ) < 72f  // Dead zone radius
 fun fingerMove(
     position: Offset
 ) {
@@ -64,7 +60,7 @@ fun fingerMove(
         (position.y - state.center.y).toDouble()
     ).toFloat()
 
-    if (distance < ACTIVATION_RADIUS) {
+    if (distance < 160f) {  // Activation radius
 
         state = state.copy(
             selectedSlice = -1

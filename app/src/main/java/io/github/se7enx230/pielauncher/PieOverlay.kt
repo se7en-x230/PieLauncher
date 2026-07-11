@@ -1,13 +1,10 @@
 package io.github.se7enx230.pielauncher
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
 import androidx.activity.compose.BackHandler
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import android.util.Log
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -72,9 +69,6 @@ var showLibrary by remember {
     mutableStateOf(false)
 }
 
-var openLibraryOnRelease by remember {
-    mutableStateOf(false)
-}
     val apps = remember(context) {
         AppRegistry.installedApps(context)
     }
@@ -154,8 +148,6 @@ BackHandler(enabled = showLibrary) {
                         // Check if swipe started from left or right edge
                         isEdgeSwipe = offset.x < edgeThreshold || 
                                      offset.x > screenWidth - edgeThreshold
-                        
-                        Log.d("PieOverlay", "Drag start at x=${offset.x}, screenWidth=$screenWidth, edgeThreshold=$edgeThreshold, isEdgeSwipe=$isEdgeSwipe")
 
                         controller.layout =
                             if (offset.x < screenWidth / 2f)
@@ -207,14 +199,6 @@ if (longPressTriggered) {
 
     return@detectDragGestures
 }
-    if (openLibraryOnRelease) {
-
-        openLibraryOnRelease = false
-        showLibrary = true
-
-        return@detectDragGestures
-    }
-
 // Only launch apps if this was an edge swipe
 if (isEdgeSwipe) {
     val slot = controller.selectedSlice()
