@@ -110,10 +110,16 @@ PieLauncher is fully functional and used as a daily launcher.
 - Add / Replace / Remove apps
 - Searchable app drawer
 - Persistent configuration
+- Wallpaper picker
+
+### Wallpaper Picker
+
+Long-press anywhere on the wallpaper (not from the screen edges) to open the system wallpaper chooser.
+
+This allows you to change your wallpaper without needing a separate settings app.
 
 ### Planned
 
-- Wallpaper picker
 - Settings screen
 - Backup / Restore
 - Performance improvements
