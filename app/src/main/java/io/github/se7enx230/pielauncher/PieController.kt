@@ -47,8 +47,7 @@ currentProfile =
     }
 state = state.copy(
     center = position,
-    selectedSlice = -1,
-    editMode = false
+    selectedSlice = -1
 )
     }
 fun isInCenter(position: Offset): Boolean =
