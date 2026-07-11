@@ -63,6 +63,10 @@ var lastPosition by remember {
 var longPressTriggered by remember {
     mutableStateOf(false)
 }
+
+var isEdgeSwipe by remember {
+    mutableStateOf(false)
+}
 var showLibrary by remember {
     mutableStateOf(false)
 }
@@ -74,7 +78,7 @@ var openLibraryOnRelease by remember {
         AppRegistry.installedApps(context)
     }
 
-    LaunchedEffect(fingerDown) {
+    LaunchedEffect(fingerDown, isEdgeSwipe) {
 
     if (!fingerDown)
         return@LaunchedEffect
@@ -84,21 +88,24 @@ var openLibraryOnRelease by remember {
 if (!fingerDown)
     return@LaunchedEffect
 
-val slice = controller.selectedSlice()
+// Only trigger long-press actions if this was an edge swipe
+if (isEdgeSwipe) {
+    val slice = controller.selectedSlice()
 
-if (slice != -1) {
+    if (slice != -1) {
 
-    editingSlot = slice
-    showLibrary = true
-    longPressTriggered = true
+        editingSlot = slice
+        showLibrary = true
+        longPressTriggered = true
 
-} else if (controller.isInCenter(lastPosition)) {
+    } else if (controller.isInCenter(lastPosition)) {
 
-    showLibrary = true
-    longPressTriggered = true
+        showLibrary = true
+        longPressTriggered = true
 
+    }
 } else {
-
+    // Long press on wallpaper/desktop opens wallpaper chooser
     WallpaperLauncher.open(context)
     longPressTriggered = true
 }
@@ -138,16 +145,27 @@ BackHandler(enabled = showLibrary) {
 
                     onDragStart = { offset ->
 lastSelectedSlice = -1
-                        controller.layout =
-                            if (offset.x < screenWidth / 2f)
-                                LauncherLayout.LEFT_HAND
-                            else
-                                LauncherLayout.RIGHT_HAND
 
-                        controller.fingerDown(
-                            offset,
-                            screenHeight.toFloat()
-                        )
+                        // Define edge threshold (e.g., 50dp from edge)
+                        val edgeThreshold = 50.dp.toPx()
+                        
+                        // Check if swipe started from left or right edge
+                        isEdgeSwipe = offset.x < edgeThreshold || 
+                                     offset.x > screenWidth - edgeThreshold
+
+                        if (isEdgeSwipe) {
+                            controller.layout =
+                                if (offset.x < screenWidth / 2f)
+                                    LauncherLayout.LEFT_HAND
+                                else
+                                    LauncherLayout.RIGHT_HAND
+
+                            controller.fingerDown(
+                                offset,
+                                screenHeight.toFloat()
+                            )
+                        }
+                        
 fingerDown = true
 longPressTriggered = false
                     },
@@ -156,22 +174,25 @@ longPressTriggered = false
 
     lastPosition = change.position
 
-    controller.fingerMove(
-        change.position
-    )
-
-    val current = controller.selectedSlice()
-
-    if (
-        current != -1 &&
-        current != lastSelectedSlice
-    ) {
-
-        haptic.performHapticFeedback(
-            HapticFeedbackType.TextHandleMove
+    // Only update pie menu if this was an edge swipe
+    if (isEdgeSwipe) {
+        controller.fingerMove(
+            change.position
         )
 
-        lastSelectedSlice = current
+        val current = controller.selectedSlice()
+
+        if (
+            current != -1 &&
+            current != lastSelectedSlice
+        ) {
+
+            haptic.performHapticFeedback(
+                HapticFeedbackType.TextHandleMove
+            )
+
+            lastSelectedSlice = current
+        }
     }
 },
 
@@ -192,29 +213,33 @@ if (longPressTriggered) {
         return@detectDragGestures
     }
 
-val slot = controller.selectedSlice()
+// Only launch apps if this was an edge swipe
+if (isEdgeSwipe) {
+    val slot = controller.selectedSlice()
 
-if (slot == -1) {
-    (context as? android.app.Activity)?.finish()
-    return@detectDragGestures
+    if (slot == -1) {
+        (context as? android.app.Activity)?.finish()
+        return@detectDragGestures
+    }
+    configuration
+        .profiles[controller.currentProfile]
+        .slots[slot]
+        ?.let {
+
+            Launcher.launch(
+                context,
+                it
+            )
+
+            // (context as? android.app.Activity)?.finish()
+        }
 }
-configuration
-    .profiles[controller.currentProfile]
-    .slots[slot]
-    ?.let {
-
-        Launcher.launch(
-            context,
-            it
-        )
-
-        // (context as? android.app.Activity)?.finish()
-    }                    }
+                    }
                 )
             }
     ) {
 
-if (showLibrary) {
+if (showLibrary && isEdgeSwipe) {
 
 AppPickerPanel(
     apps = apps,
@@ -273,7 +298,7 @@ onAppSelected = { app ->
 }
 )
 
-} else {
+} else if (isEdgeSwipe) {
 
     FanMenu(
         state = controller.state,
@@ -282,7 +307,7 @@ onAppSelected = { app ->
     )
 }
 
-if (!showLibrary) {
+if (!showLibrary && isEdgeSwipe) {
     CenterButton(
         center = controller.state.center,
         onOpenLibrary = {
