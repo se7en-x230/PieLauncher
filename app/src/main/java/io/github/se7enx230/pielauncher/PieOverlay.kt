@@ -240,7 +240,7 @@ if (isEdgeSwipe) {
             }
     ) {
 
-if (showLibrary && isEdgeSwipe) {
+if (showLibrary) {
 
 AppPickerPanel(
     apps = apps,
@@ -299,16 +299,16 @@ onAppSelected = { app ->
 }
 )
 
-} else if (isEdgeSwipe) {
+}
+
+if (isEdgeSwipe && !showLibrary) {
 
     FanMenu(
         state = controller.state,
         icons = icons,
         layout = controller.layout
     )
-}
 
-if (!showLibrary && isEdgeSwipe) {
     CenterButton(
         center = controller.state.center,
         onOpenLibrary = {
