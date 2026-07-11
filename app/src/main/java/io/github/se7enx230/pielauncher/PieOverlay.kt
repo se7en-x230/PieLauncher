@@ -145,7 +145,7 @@ BackHandler(enabled = showLibrary) {
                 detectDragGestures(
 
                     onDragStart = { offset ->
-lastSelectedSlice = -1
+                        lastSelectedSlice = -1
 
                         // Define edge threshold (e.g., 50dp from edge)
                         val edgeThreshold = 50.dp.toPx()
@@ -154,21 +154,19 @@ lastSelectedSlice = -1
                         isEdgeSwipe = offset.x < edgeThreshold || 
                                      offset.x > screenWidth - edgeThreshold
 
-                        if (isEdgeSwipe) {
-                            controller.layout =
-                                if (offset.x < screenWidth / 2f)
-                                    LauncherLayout.LEFT_HAND
-                                else
-                                    LauncherLayout.RIGHT_HAND
+                        controller.layout =
+                            if (offset.x < screenWidth / 2f)
+                                LauncherLayout.LEFT_HAND
+                            else
+                                LauncherLayout.RIGHT_HAND
 
-                            controller.fingerDown(
-                                offset,
-                                screenHeight.toFloat()
-                            )
-                        }
+                        controller.fingerDown(
+                            offset,
+                            screenHeight.toFloat()
+                        )
                         
-fingerDown = true
-longPressTriggered = false
+                        fingerDown = true
+                        longPressTriggered = false
                     },
 
                     onDrag = { change, _ ->
