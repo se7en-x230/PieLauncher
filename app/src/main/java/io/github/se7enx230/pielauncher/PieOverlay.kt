@@ -220,7 +220,7 @@ if (isEdgeSwipe) {
     val slot = controller.selectedSlice()
 
     if (slot == -1) {
-        (context as? android.app.Activity)?.finish()
+        controller.reset()
         return@detectDragGestures
     }
     configuration
@@ -233,7 +233,11 @@ if (isEdgeSwipe) {
                 it
             )
 
-            // (context as? android.app.Activity)?.finish()
+            // Reset controller state after launching
+            controller.reset()
+            
+            // Optionally close the launcher activity
+            (context as? android.app.Activity)?.finish()
         }
 }
                     }
@@ -263,7 +267,11 @@ onAppSelected = { app ->
                 it
             )
 
-            // (context as? android.app.Activity)?.finish()
+            // Reset controller state after launching
+            controller.reset()
+            
+            // Optionally close the launcher activity
+            (context as? android.app.Activity)?.finish()
         }
 
     } else {
