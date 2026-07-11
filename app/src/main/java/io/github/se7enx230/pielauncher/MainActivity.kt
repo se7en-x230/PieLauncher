@@ -14,6 +14,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Ensure window is fully transparent to prevent background flash
+        window.setBackgroundDrawableResource(android.R.color.transparent)
+
         setContent {
             PieLauncherTheme {
                 PieOverlay()
