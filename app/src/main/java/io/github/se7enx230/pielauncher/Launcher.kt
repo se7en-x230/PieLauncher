@@ -3,24 +3,32 @@ package io.github.se7enx230.pielauncher
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 
 object Launcher {
 
     fun launch(
         context: Context,
         app: AppInfo
-    ) {
+    ): Boolean {
 
-        val intent = Intent().apply {
+        return try {
+            val intent = Intent().apply {
 
-            component = ComponentName(
-                app.packageName,
-                app.activityName
-            )
+                component = ComponentName(
+                    app.packageName,
+                    app.activityName
+                )
 
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            context.startActivity(intent)
+            true
+
+        } catch (e: Exception) {
+            Log.e("Launcher", "Failed to launch ${app.label}", e)
+            false
         }
-
-        context.startActivity(intent)
     }
 }

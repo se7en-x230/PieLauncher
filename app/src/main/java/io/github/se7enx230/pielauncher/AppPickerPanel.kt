@@ -38,7 +38,7 @@ fun AppPickerPanel(
 ) {
 var query by remember { mutableStateOf("") }
 
-val filteredApps = remember(apps, query) {
+val filteredApps = remember(query) {
     apps.filter {
         it.label.contains(query, ignoreCase = true)
     }

@@ -4,6 +4,5 @@ import androidx.compose.ui.geometry.Offset
 
 data class PieState(
     val center: Offset = Offset.Zero,
-    val selectedSlice: Int = -1,
-    val editMode: Boolean = false
+    val selectedSlice: Int = -1
 )

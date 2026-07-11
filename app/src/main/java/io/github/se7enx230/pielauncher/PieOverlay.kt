@@ -70,19 +70,11 @@ var showLibrary by remember {
 var openLibraryOnRelease by remember {
     mutableStateOf(false)
 }
-    val apps = remember {
+    val apps = remember(context) {
         AppRegistry.installedApps(context)
     }
 
-LaunchedEffect(Unit) {
-        apps.forEach {
-            Log.d(
-                "PieOverlay",
-                "${it.label} : ${it.packageName}"
-            )
-                }
-    }
-LaunchedEffect(fingerDown) {
+    LaunchedEffect(fingerDown) {
 
     if (!fingerDown)
         return@LaunchedEffect
@@ -111,17 +103,20 @@ if (slice != -1) {
     longPressTriggered = true
 }
 }
-    val icons = List(FanSlots.SlotCount) { slot ->
-
-        configuration
-            .profiles[controller.currentProfile]
-            .slots[slot]
-            ?.let {
-                IconLoader.load(
-                    context,
-                    it
-                )
-            }
+    val icons = remember(configuration, controller.currentProfile) {
+        List(FanSlots.SlotCount) { slot ->
+            configuration
+                .profiles
+                .getOrNull(controller.currentProfile)
+                ?.slots
+                ?.getOrNull(slot)
+                ?.let {
+                    IconLoader.load(
+                        context,
+                        it
+                    )
+                }
+        }
     }
 BackHandler(enabled = showLibrary) {
     showLibrary = false

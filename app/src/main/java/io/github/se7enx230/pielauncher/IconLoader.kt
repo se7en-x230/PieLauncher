@@ -9,6 +9,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 object IconLoader {
 
     private val cache = mutableMapOf<String, ImageBitmap>()
+    private const val MAX_CACHE_SIZE = 100
+
+    fun clearCache() {
+        cache.clear()
+    }
 
     fun load(
         context: Context,
@@ -44,6 +49,11 @@ object IconLoader {
             drawable.draw(canvas)
 
             val image = bitmap.asImageBitmap()
+
+            // Prevent unbounded cache growth
+            if (cache.size >= MAX_CACHE_SIZE) {
+                cache.remove(cache.keys.first())
+            }
 
             cache[app.packageName] = image
 

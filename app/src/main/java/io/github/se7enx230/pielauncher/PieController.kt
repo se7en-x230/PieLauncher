@@ -24,6 +24,11 @@ companion object {
     var currentProfile by mutableIntStateOf(0)
         private set
 
+    fun reset() {
+        state = PieState()
+        currentProfile = 0
+    }
+
     fun fingerDown(
         position: Offset,
         screenHeight: Float
