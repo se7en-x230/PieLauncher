@@ -72,6 +72,10 @@ var hasDragged by remember {
     mutableStateOf(false)
 }
 
+var showPieMenu by remember {
+    mutableStateOf(false)
+}
+
 var showLibrary by remember {
     mutableStateOf(false)
 }
@@ -92,18 +96,21 @@ if (!fingerDown)
 
 longPressTriggered = true
 
-val slice = controller.selectedSlice()
-
-if (slice != -1) {
-    // Long press on a slice - edit it
-    editingSlot = slice
-    showLibrary = true
-} else if (controller.isInCenter(lastPosition)) {
-    // Long press in center - open app drawer
-    showLibrary = true
-} else if (!hasDragged) {
+if (!hasDragged) {
     // Long press on wallpaper without dragging - open wallpaper chooser
     WallpaperLauncher.open(context)
+} else {
+    // User dragged, so pie menu is visible
+    val slice = controller.selectedSlice()
+
+    if (slice != -1) {
+        // Long press on a slice - edit it
+        editingSlot = slice
+        showLibrary = true
+    } else if (controller.isInCenter(lastPosition)) {
+        // Long press in center - open app drawer
+        showLibrary = true
+    }
 }
 }
     val icons = remember(configuration, controller.currentProfile) {
@@ -156,6 +163,7 @@ BackHandler(enabled = showLibrary) {
                         
                         fingerDown = true
                         longPressTriggered = false
+                        showPieMenu = false
                         lastPosition = downPosition
 
                         var dragStarted = false
@@ -167,6 +175,7 @@ BackHandler(enabled = showLibrary) {
                             if (change.positionChange() != Offset.Zero) {
                                 hasDragged = true
                                 dragStarted = true
+                                showPieMenu = true
                                 
                                 lastPosition = change.position
 
@@ -286,7 +295,7 @@ onAppSelected = { app ->
 }
 )
 
-} else {
+} else if (showPieMenu) {
 
     FanMenu(
         state = controller.state,
