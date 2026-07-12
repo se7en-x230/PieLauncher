@@ -499,3 +499,209 @@
 
 # 2026-07-12 09:56:35.256248
 +/run git add .aider.chat.history.md .aider.input.history
+
+# 2026-07-12 09:56:35.518119
++/run git commit -m "chore: update aider history files"
+
+# 2026-07-12 09:56:35.518363
++/run git commit -m "chore: update aider history files"
+
+# 2026-07-12 09:56:35.943840
++/run git status
+
+# 2026-07-12 09:56:35.944002
++/run git status
+
+# 2026-07-12 09:56:37.941580
++y
+
+# 2026-07-12 09:57:54.285369
++❯ git status                  
++On branch main
++Your branch is ahead of 'origin/main' by 1 commit.
++  (use "git push" to publish your local commits)
++
++Changes not staged for commit:
++  (use "git add/rm <file>..." to update what will be committed)
++  (use "git restore <file>..." to discard changes in working directory)
++	modified:   .aider.chat.history.md
++	modified:   .aider.input.history
++	modified:   .gitignore
++	deleted:    PieLauncher
++
++no changes added to commit (use "git add" and/or "git commit -a")
+
+# 2026-07-12 09:58:31.849726
++exit
+
+# 2026-07-12 09:58:49.312789
++n
+
+# 2026-07-12 09:58:53.902774
++/map
+
+# 2026-07-12 09:59:34.437535
++check git if all files are correct and git is up to date
+
+# 2026-07-12 10:07:44.686154
++ok check and clean git I get errors of git being corrupt 
+
+# 2026-07-12 10:07:52.393712
++y
+
+# 2026-07-12 10:07:52.405414
++/run git status
+
+# 2026-07-12 10:07:52.405655
++/run git status
+
+# 2026-07-12 10:07:54.047973
++y
+
+# 2026-07-12 10:07:55.514144
++/run git fsck --full
+
+# 2026-07-12 10:07:55.514367
++/run git fsck --full
+
+# 2026-07-12 10:07:57.536067
++y
+
+# 2026-07-12 10:07:58.776539
++/run git gc --prune=now
+
+# 2026-07-12 10:07:58.776698
++/run git gc --prune=now
+
+# 2026-07-12 10:08:03.260920
++y
+
+# 2026-07-12 10:08:20.940833
++Unable to list files in git repo: BadObject: b'208207571248fb424d50ac66e41b5fbd7c83a868'
++Is your git repo corrupted?
+
+# 2026-07-12 10:08:30.109752
++y
+
+# 2026-07-12 10:08:30.121461
++/run git cat-file -t 208207571248fb424d50ac66e41b5fbd7c83a868
+
+# 2026-07-12 10:08:30.121728
++/run git cat-file -t 208207571248fb424d50ac66e41b5fbd7c83a868
+
+# 2026-07-12 10:08:32.321079
++y
+
+# 2026-07-12 10:08:33.527306
++/run find .git/objects -type f -empty -delete
+
+# 2026-07-12 10:08:33.527599
++/run find .git/objects -type f -empty -delete
+
+# 2026-07-12 10:08:34.870837
++y
+
+# 2026-07-12 10:08:35.927913
++/run git reflog expire --expire=now --all && git gc --prune=now --aggressive
+
+# 2026-07-12 10:08:35.928093
++/run git reflog expire --expire=now --all && git gc --prune=now --aggressive
+
+# 2026-07-12 10:08:41.326151
++y
+
+# 2026-07-12 10:08:42.383833
++/run git fetch origin
+
+# 2026-07-12 10:08:42.383980
++/run git fetch origin
+
+# 2026-07-12 10:10:10.096996
++ok whatever ... now I have the problem that long press on an pie slot triggers first the library to edit the slot but on release the button also the app itself which overwrites the edit ... I can not edit the slot anymore
+
+# 2026-07-12 10:10:43.432167
++/mapp
+
+# 2026-07-12 10:10:46.133735
++/map
+
+# 2026-07-12 10:11:03.335949
++y
+
+# 2026-07-12 10:11:12.157068
++/map
+
+# 2026-07-12 10:11:22.473991
++check git 
+
+# 2026-07-12 10:11:30.117936
++y
+
+# 2026-07-12 10:11:30.129623
++/run git status
+
+# 2026-07-12 10:11:30.129837
++/run git status
+
+# 2026-07-12 10:11:32.028106
++y
+
+# 2026-07-12 10:12:47.453997
++long pressing a slot in the pie to edit the slot triggers first the library and on finger release lauches the app. I can not edit the slot because the app launches 
+
+# 2026-07-12 10:13:02.840078
++a
+
+# 2026-07-12 10:17:09.086226
++ok add push tag and move the apk to apk/
+
+# 2026-07-12 10:18:30.073413
++v1.0.1
+
+# 2026-07-12 10:18:39.593226
++y
+
+# 2026-07-12 10:18:39.603930
++/run find . -name "*.apk" -type f | grep -v "^./apk/"
+
+# 2026-07-12 10:18:39.604071
++/run find . -name "*.apk" -type f | grep -v "^./apk/"
+
+# 2026-07-12 10:18:42.310063
++y
+
+# 2026-07-12 10:19:23.944593
++did you push the update?
+
+# 2026-07-12 10:19:33.094109
++y
+
+# 2026-07-12 10:20:54.556204
++ok step by step git add the latest and push + add the tag v1.0.1
+
+# 2026-07-12 10:21:02.790242
++y
+
+# 2026-07-12 10:33:38.084113
++how do I generate a apk 
+
+# 2026-07-12 10:34:00.017152
++/run ./gradlew assembleDebug
+
+# 2026-07-12 10:34:00.017320
++/run ./gradlew assembleDebug
+
+# 2026-07-12 10:34:03.219795
++y
+
+# 2026-07-12 10:36:48.011086
++so every ./gralew inst
+
+# 2026-07-12 10:37:15.486540
++y
+
+# 2026-07-12 10:40:00.705085
++ok push the latest changes
+
+# 2026-07-12 10:40:12.812046
++y
