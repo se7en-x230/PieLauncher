@@ -210,3 +210,36 @@
 
 # 2026-07-12 07:50:30.732572
 +ok works again. now the pie gets triggered by fingerdown. meaning the wallpaper changer never has a chance to launch with a long press on the empty screen because it is never empty. 
+
+# 2026-07-12 09:35:19.580656
++ok that does not work reliable. basically because press and slide and long press are too close actions together.
+
+# 2026-07-12 09:40:13.216908
++that would overwrite long press chenter to open the library in case other apps need to be launched. how about adding the wallpaper changer to the library menu. as in the footer we have cancel and on the right side settings that have only one option to change the wallpaper. no need for a submenu. tab on cancle exits the library and click on wall triggers the wallpaper changer. this way the pie is the only action that has to be triggerd from the home screen. no confusion or double actions
+
+# 2026-07-12 09:42:21.955792
++ok good. now make the long press delay longer to not accidentally trigger the center point or the edit app slot
+
+# 2026-07-12 09:42:37.099752
++y
+
+# 2026-07-12 09:42:37.111593
++/run ./gradlew installDebug
+
+# 2026-07-12 09:42:37.111785
++/run ./gradlew installDebug
+
+# 2026-07-12 09:42:58.475483
++y
+
+# 2026-07-12 09:44:01.372989
++now update the readme and add + push the changes in a new tag release
+
+# 2026-07-12 09:44:26.374005
++y
+
+# 2026-07-12 09:44:26.384613
++/run git add -A
+
+# 2026-07-12 09:44:26.384755
++/run git add -A
