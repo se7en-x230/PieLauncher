@@ -88,13 +88,8 @@ if (slice != -1) {
     showLibrary = true
     longPressTriggered = true
 
-} else if (controller.isInCenter(lastPosition)) {
-    // Long press in center - open app drawer
-    showLibrary = true
-    longPressTriggered = true
-
 } else {
-    // Long press on wallpaper - open wallpaper chooser
+    // Long press anywhere else - open wallpaper chooser
     WallpaperLauncher.open(context)
     longPressTriggered = true
 }
