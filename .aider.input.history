@@ -156,3 +156,57 @@
 
 # 2026-07-11 17:36:54.469110
 +y
+
+# 2026-07-11 18:24:33.366890
++only problem now is that if I open apps and close sometimes the app draws a gray or black background then restores the wallpaper. that does not happen all the time but sometimes. I can not see a patter and it is only for a split second
+
+# 2026-07-11 18:24:56.639953
++y
+
+# 2026-07-11 18:25:12.426534
++/run ./gradlew installDebug
+
+# 2026-07-11 18:25:12.426702
++/run ./gradlew installDebug
+
+# 2026-07-11 18:25:30.894178
++y
+
+# 2026-07-12 07:25:48.300255
++i think the problem is the slide colides with the normal android action slide up opens the open apps overview. can we change the wallpaper changer with only a long hold
+
+# 2026-07-12 07:29:45.527366
++nope wallpaper not work anymore
+
+# 2026-07-12 07:35:36.974901
++nope long press does nothing anymore. how about we change the pie to short press triggers the pie finger stays on the screen and slides to the app to trigger the launch. and long press on the empty screen triggers the wallpaper laucher or does that clolide
+
+# 2026-07-12 07:39:57.708174
++y
+
+# 2026-07-12 07:39:57.720083
++/run ./gradlew installDebug
+
+# 2026-07-12 07:39:57.720231
++/run ./gradlew installDebug
+
+# 2026-07-12 07:42:55.043381
++still no long press action 
+
+# 2026-07-12 07:44:35.199121
++> Task :app:compileDebugKotlin FAILED
++e: file:///home/seven/AndroidStudioProjects/PieLauncher/app/src/main/java/io/github/se7enx230/pielauncher/PieOverlay.kt:24:42 Unresolved reference 'awaitPointerEventScope'.
++e: file:///home/seven/AndroidStudioProjects/PieLauncher/app/src/main/java/io/github/se7enx230/pielauncher/PieOverlay.kt:25:42 Unresolved reference 'awaitFirstDown'.
++e: file:///home/seven/AndroidStudioProjects/PieLauncher/app/src/main/java/io/github/se7enx230/pielauncher/PieOverlay.kt:26:42 Unresolved reference 'awaitPointerEvent'.
++e: file:///home/seven/AndroidStudioProjects/PieLauncher/app/src/main/java/io/github/se7enx230/pielauncher/PieOverlay.kt:133:36 Unresolved reference 'awaitFirstDown'.
+
+# 2026-07-12 07:44:55.470151
++> Task :app:compileDebugKotlin FAILED
++e: file:///home/seven/AndroidStudioProjects/PieLauncher/app/src/main/java/io/github/se7enx230/pielauncher/PieOverlay.kt:190:29 'break' and 'continue' are only allowed inside loops.
++e: file:///home/seven/AndroidStudioProjects/PieLauncher/app/src/main/java/io/github/se7enx230/pielauncher/PieOverlay.kt:197:29 'break' and 'continue' are only allowed inside loops.
+
+# 2026-07-12 07:47:42.673537
++now the pie is triggered by fingerdown and long press in the pie to change an app or centerpoint long press do not trigger the libray 
+
+# 2026-07-12 07:50:30.732572
++ok works again. now the pie gets triggered by fingerdown. meaning the wallpaper changer never has a chance to launch with a long press on the empty screen because it is never empty. 
