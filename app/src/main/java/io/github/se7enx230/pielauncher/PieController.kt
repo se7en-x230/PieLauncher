@@ -35,10 +35,10 @@ currentProfile =
         // Top profile: upper 45% of the screen
         position.y < screenHeight * 0.45f -> 0
 
-        // Middle profile: 45% - 80%
-        position.y < screenHeight * 0.70f -> 1
+        // Middle profile: 45% - 65%
+        position.y < screenHeight * 0.65f -> 1
 
-        // Bottom profile: last 20%
+        // Bottom profile: last 35%
         else -> 2
     }
 state = state.copy(
