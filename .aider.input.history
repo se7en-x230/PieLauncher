@@ -391,3 +391,111 @@
 
 # 2026-07-12 09:53:24.096932
 +/run git add -A
+
+# 2026-07-12 09:53:24.676971
++/run git commit -m "chore: add v1.0.0 APK and update README with correct profile thresholds"
+
+# 2026-07-12 09:53:24.677160
++/run git commit -m "chore: add v1.0.0 APK and update README with correct profile thresholds"
+
+# 2026-07-12 09:53:24.893355
++/run git tag -a v1.0.0 -m "Release v1.0.0 - Stable pie launcher with 3 profiles and wallpaper picker"
+
+# 2026-07-12 09:53:24.893578
++/run git tag -a v1.0.0 -m "Release v1.0.0 - Stable pie launcher with 3 profiles and wallpaper picker"
+
+# 2026-07-12 09:53:25.139890
++/run git push origin main
+
+# 2026-07-12 09:53:25.140053
++/run git push origin main
+
+# 2026-07-12 09:53:33.880976
++/run git push origin v1.0.0
+
+# 2026-07-12 09:53:33.881058
++/run git push origin v1.0.0
+
+# 2026-07-12 09:53:50.901555
++y
+
+# 2026-07-12 09:55:00.409523
++can you check if the git is now clean and up to date
+
+# 2026-07-12 09:55:18.296478
++y
+
+# 2026-07-12 09:55:18.308122
++/run git status
+
+# 2026-07-12 09:55:18.308377
++/run git status
+
+# 2026-07-12 09:55:18.915760
++/run git log --oneline -5
+
+# 2026-07-12 09:55:18.916039
++/run git log --oneline -5
+
+# 2026-07-12 09:55:26.640975
++/run git remote -v
+
+# 2026-07-12 09:55:26.641156
++/run git remote -v
+
+# 2026-07-12 09:55:26.892615
++/run git fetch origin
+
+# 2026-07-12 09:55:26.892819
++/run git fetch origin
+
+# 2026-07-12 09:55:30.231622
++/run git status
+
+# 2026-07-12 09:55:30.231827
++/run git status
+
+# 2026-07-12 09:55:56.360493
++y
+
+# 2026-07-12 09:56:08.666680
++how can I check if the git is ok
+
+# 2026-07-12 09:56:33.774578
++y
+
+# 2026-07-12 09:56:33.785537
++/run rm -rf PieLauncher
+
+# 2026-07-12 09:56:33.785740
++/run rm -rf PieLauncher
+
+# 2026-07-12 09:56:34.066585
++/run git restore --staged PieLauncher
+
+# 2026-07-12 09:56:34.066808
++/run git restore --staged PieLauncher
+
+# 2026-07-12 09:56:34.314686
++/run git status
+
+# 2026-07-12 09:56:34.314999
++/run git status
+
+# 2026-07-12 09:56:34.564085
++/run echo ".aider.chat.history.md" >> .gitignore
+
+# 2026-07-12 09:56:34.564308
++/run echo ".aider.chat.history.md" >> .gitignore
+
+# 2026-07-12 09:56:34.821377
++/run echo ".aider.input.history" >> .gitignore
+
+# 2026-07-12 09:56:34.821660
++/run echo ".aider.input.history" >> .gitignore
+
+# 2026-07-12 09:56:35.255997
++/run git add .aider.chat.history.md .aider.input.history
+
+# 2026-07-12 09:56:35.256248
++/run git add .aider.chat.history.md .aider.input.history
