@@ -63,18 +63,38 @@ Just muscle memory.
 
 ## How it Works
 
-Touch anywhere on the screen.
+Touch anywhere on the screen and drag.
 
-A pie menu appears centered under your finger.
+A pie menu appears centered under your finger with up to 6 app slots arranged in a fan pattern.
 
-Move toward one of the eight slices.
+Move your finger toward one of the app slots.
 
 Release to launch the selected app.
 
-### Editing
+### Profiles
 
-- **Long press a slice** to replace or remove the assigned app.
-- **Long press the center** to open the complete app drawer.
+The launcher has **three independent profiles** that automatically switch based on where you touch:
+
+- **Top profile** (upper 45% of screen)
+- **Middle profile** (45% - 70% of screen)  
+- **Bottom profile** (lower 30% of screen)
+
+Each profile can hold 6 different apps, giving you quick access to 18 apps total.
+
+### Editing Apps
+
+- **Long press on an app slot** (2.5 seconds) to edit or remove that app
+- **Long press in the center** (2.5 seconds) to open the app drawer
+- **Tap the center button** to open the app drawer immediately
+- In the app drawer, tap **"Wallpaper"** to change your wallpaper
+- Use the search bar to quickly find apps
+
+### Layout
+
+The pie menu automatically adjusts based on which side of the screen you touch:
+
+- Touch **left side** → Left-handed layout
+- Touch **right side** → Right-handed layout
 
 ---
 
@@ -112,18 +132,16 @@ PieLauncher is fully functional and used as a daily launcher.
 - Persistent configuration
 - Wallpaper picker
 
-### Wallpaper Picker
-
-Long-press anywhere on the wallpaper (not from the screen edges) to open the system wallpaper chooser.
-
-This allows you to change your wallpaper without needing a separate settings app.
 
 ### Planned
 
+- Profile switching indicators
+- Customizable app slot count
+- Backup / Restore configuration
 - Settings screen
-- Backup / Restore
 - Performance improvements
 - Animations and polish
+- Gesture customization
 
 ---
 
