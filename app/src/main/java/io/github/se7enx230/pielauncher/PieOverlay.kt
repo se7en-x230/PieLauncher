@@ -64,17 +64,6 @@ var lastPosition by remember {
     mutableStateOf(Offset.Zero)
 }
 
-var longPressTriggered by remember {
-    mutableStateOf(false)
-}
-
-var hasDragged by remember {
-    mutableStateOf(false)
-}
-
-var showPieMenu by remember {
-    mutableStateOf(false)
-}
 
 var showLibrary by remember {
     mutableStateOf(false)
@@ -94,23 +83,15 @@ var showLibrary by remember {
 if (!fingerDown)
     return@LaunchedEffect
 
-longPressTriggered = true
+val slice = controller.selectedSlice()
 
-if (!hasDragged) {
-    // Long press on wallpaper without dragging - open wallpaper chooser
-    WallpaperLauncher.open(context)
-} else {
-    // User dragged, so pie menu is visible
-    val slice = controller.selectedSlice()
-
-    if (slice != -1) {
-        // Long press on a slice - edit it
-        editingSlot = slice
-        showLibrary = true
-    } else if (controller.isInCenter(lastPosition)) {
-        // Long press in center - open app drawer
-        showLibrary = true
-    }
+if (slice != -1) {
+    // Long press on a slice - edit it
+    editingSlot = slice
+    showLibrary = true
+} else if (controller.isInCenter(lastPosition)) {
+    // Long press in center - open app drawer
+    showLibrary = true
 }
 }
     val icons = remember(configuration, controller.currentProfile) {
@@ -148,7 +129,6 @@ BackHandler(enabled = showLibrary) {
                         val downPosition = down.position
                         
                         lastSelectedSlice = -1
-                        hasDragged = false
                         
                         controller.layout =
                             if (downPosition.x < screenWidth / 2f)
@@ -162,8 +142,6 @@ BackHandler(enabled = showLibrary) {
                         )
                         
                         fingerDown = true
-                        longPressTriggered = false
-                        showPieMenu = false
                         lastPosition = downPosition
 
                         var dragStarted = false
@@ -173,9 +151,7 @@ BackHandler(enabled = showLibrary) {
                             val change = event.changes.firstOrNull() ?: break
                             
                             if (change.positionChange() != Offset.Zero) {
-                                hasDragged = true
                                 dragStarted = true
-                                showPieMenu = true
                                 
                                 lastPosition = change.position
 
@@ -202,11 +178,6 @@ BackHandler(enabled = showLibrary) {
 
                         // Finger released
                         fingerDown = false
-                        
-                        if (longPressTriggered) {
-                            longPressTriggered = false
-                            return@awaitEachGesture
-                        }
 
                         val slot = controller.selectedSlice()
 
@@ -295,7 +266,7 @@ onAppSelected = { app ->
 }
 )
 
-} else if (showPieMenu) {
+} else {
 
     FanMenu(
         state = controller.state,
@@ -307,6 +278,9 @@ onAppSelected = { app ->
         center = controller.state.center,
         onOpenLibrary = {
             showLibrary = true
+        },
+        onOpenWallpaper = {
+            WallpaperLauncher.open(context)
         }
     )
 }

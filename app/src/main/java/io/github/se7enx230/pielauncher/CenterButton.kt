@@ -1,10 +1,12 @@
 package io.github.se7enx230.pielauncher
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
@@ -14,13 +16,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 
 @Composable
 fun CenterButton(
     center: Offset,
-    onOpenLibrary: () -> Unit
+    onOpenLibrary: () -> Unit,
+    onOpenWallpaper: () -> Unit
 ) {
 
     val radius = PieConstants.DeadZoneRadius
@@ -37,14 +41,18 @@ fun CenterButton(
                     (center.y - radiusPx).toInt()
                 )
             }
-.size(radius / 1)
-
-.background(
-    Color.White.copy(alpha = 0.35f),
-    CircleShape
-),
+            .size(radius / 1)
+            .background(
+                Color.White.copy(alpha = 0.35f),
+                CircleShape
+            )
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { onOpenWallpaper() }
+                )
+            },
         contentAlignment = Alignment.Center
-) {
+    ) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
