@@ -62,6 +62,10 @@ var longPressTriggered by remember {
     mutableStateOf(false)
 }
 
+var hasDragged by remember {
+    mutableStateOf(false)
+}
+
 var showLibrary by remember {
     mutableStateOf(false)
 }
@@ -70,7 +74,7 @@ var showLibrary by remember {
         AppRegistry.installedApps(context)
     }
 
-    LaunchedEffect(fingerDown) {
+    LaunchedEffect(fingerDown, hasDragged) {
 
     if (!fingerDown)
         return@LaunchedEffect
@@ -80,16 +84,9 @@ var showLibrary by remember {
 if (!fingerDown)
     return@LaunchedEffect
 
-val slice = controller.selectedSlice()
-
-if (slice != -1) {
-    // Long press on a slice - edit it
-    editingSlot = slice
-    showLibrary = true
-    longPressTriggered = true
-
-} else {
-    // Long press anywhere else - open wallpaper chooser
+// Only trigger long-press if user hasn't dragged
+if (!hasDragged) {
+    // Long press without dragging - open wallpaper chooser
     WallpaperLauncher.open(context)
     longPressTriggered = true
 }
@@ -129,6 +126,7 @@ BackHandler(enabled = showLibrary) {
 
                     onDragStart = { offset ->
                         lastSelectedSlice = -1
+                        hasDragged = false
 
                         controller.layout =
                             if (offset.x < screenWidth / 2f)
@@ -145,9 +143,10 @@ BackHandler(enabled = showLibrary) {
                         longPressTriggered = false
                     },
 
-                    onDrag = { change, _ ->
+                    onDrag = { change, dragAmount ->
 
     lastPosition = change.position
+    hasDragged = true
 
     controller.fingerMove(
         change.position
