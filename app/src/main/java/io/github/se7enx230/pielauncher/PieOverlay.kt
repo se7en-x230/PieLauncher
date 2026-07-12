@@ -78,7 +78,7 @@ var showLibrary by remember {
     if (!fingerDown)
         return@LaunchedEffect
 
-    kotlinx.coroutines.delay(1500)
+    kotlinx.coroutines.delay(2500)
 
 if (!fingerDown)
     return@LaunchedEffect
