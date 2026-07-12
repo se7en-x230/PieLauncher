@@ -76,8 +76,8 @@ Release to launch the selected app.
 The launcher has **three independent profiles** that automatically switch based on where you touch:
 
 - **Top profile** (upper 45% of screen)
-- **Middle profile** (45% - 70% of screen)  
-- **Bottom profile** (lower 30% of screen)
+- **Middle profile** (45% - 65% of screen)  
+- **Bottom profile** (lower 35% of screen)
 
 Each profile can hold 6 different apps, giving you quick access to 18 apps total.
 
