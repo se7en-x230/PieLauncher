@@ -69,6 +69,10 @@ var showLibrary by remember {
     mutableStateOf(false)
 }
 
+var enteredEditMode by remember {
+    mutableStateOf(false)
+}
+
     val apps = remember(context) {
         AppRegistry.installedApps(context)
     }
@@ -89,9 +93,11 @@ if (slice != -1) {
     // Long press on a slice - edit it
     editingSlot = slice
     showLibrary = true
+    enteredEditMode = true
 } else if (controller.isInCenter(lastPosition)) {
     // Long press in center - open app drawer
     showLibrary = true
+    enteredEditMode = true
 }
 }
     val icons = remember(configuration, controller.currentProfile) {
@@ -129,6 +135,7 @@ BackHandler(enabled = showLibrary) {
                         val downPosition = down.position
                         
                         lastSelectedSlice = -1
+                        enteredEditMode = false
                         
                         controller.layout =
                             if (downPosition.x < screenWidth / 2f)
@@ -178,6 +185,11 @@ BackHandler(enabled = showLibrary) {
 
                         // Finger released
                         fingerDown = false
+
+                        // Don't launch app if we entered edit mode
+                        if (enteredEditMode) {
+                            return@awaitEachGesture
+                        }
 
                         val slot = controller.selectedSlice()
 
