@@ -243,3 +243,151 @@
 
 # 2026-07-12 09:44:26.384755
 +/run git add -A
+
+# 2026-07-12 09:44:26.665832
++/run git commit -m "docs: update README with current features and usage instructions"
+
+# 2026-07-12 09:44:26.666013
++/run git commit -m "docs: update README with current features and usage instructions"
+
+# 2026-07-12 09:44:27.302130
++/run git tag -a v1.0.0 -m "Release v1.0.0 - Stable pie launcher with 3 profiles and wallpaper picker"
+
+# 2026-07-12 09:44:27.302383
++/run git tag -a v1.0.0 -m "Release v1.0.0 - Stable pie launcher with 3 profiles and wallpaper picker"
+
+# 2026-07-12 09:44:27.566185
++/run git push origin main
+
+# 2026-07-12 09:44:27.566392
++/run git push origin main
+
+# 2026-07-12 09:44:31.880021
++/run git push origin v1.0.0
+
+# 2026-07-12 09:44:31.880189
++/run git push origin v1.0.0
+
+# 2026-07-12 09:44:38.309779
++y
+
+# 2026-07-12 09:49:52.860332
++now add 5% to the bottom profile from the mid profile. rest keep like it is. to access the bottom proflie the thumb has to curl too much down and usually triggers the mid profile
+
+# 2026-07-12 09:50:34.079152
++Unable to list files in git repo: BadObject: b'af8e30be058e2bcbeac6c7fe292d1da6f489aed3'
++Is your git repo corrupted?
++Unable to list files in git repo: BadObject: b'af8e30be058e2bcbeac6c7fe292d1da6f489aed3'
++Is your git repo corrupted?
++Unable to list files in git repo: BadObject: b'af8e30be058e2bcbeac6c7fe292d1da6f489aed3'
++Is your git repo corrupted?
++Unable to list files in git repo: BadObject: b'af8e30be058e2bcbeac6c7fe292d1da6f489aed3'
++Is your git repo corrupted? fix that
+
+# 2026-07-12 09:50:44.044268
++y
+
+# 2026-07-12 09:50:44.054748
++/run git fsck --full
+
+# 2026-07-12 09:50:44.054932
++/run git fsck --full
+
+# 2026-07-12 09:50:46.534189
++y
+
+# 2026-07-12 09:50:48.870132
++/run git reflog expire --expire=now --all
+
+# 2026-07-12 09:50:48.870273
++/run git reflog expire --expire=now --all
+
+# 2026-07-12 09:50:49.101178
++/run git gc --prune=now --aggressive
+
+# 2026-07-12 09:50:49.101478
++/run git gc --prune=now --aggressive
+
+# 2026-07-12 09:50:51.379746
++/run rm -f .git/objects/af/8e30be058e2bcbeac6c7fe292d1da6f489aed3
+
+# 2026-07-12 09:50:51.379802
++/run rm -f .git/objects/af/8e30be058e2bcbeac6c7fe292d1da6f489aed3
+
+# 2026-07-12 09:50:51.588530
++/run git gc --prune=now
+
+# 2026-07-12 09:50:51.588714
++/run git gc --prune=now
+
+# 2026-07-12 09:50:52.198119
++/run git fsck --full
+
+# 2026-07-12 09:50:52.198361
++/run git fsck --full
+
+# 2026-07-12 09:50:54.223222
++y
+
+# 2026-07-12 09:50:55.321195
++/run cd ..
+
+# 2026-07-12 09:50:55.321399
++/run cd ..
+
+# 2026-07-12 09:50:55.551508
++/run mv PieLauncher PieLauncher.backup
+
+# 2026-07-12 09:50:55.551786
++/run mv PieLauncher PieLauncher.backup
+
+# 2026-07-12 09:50:55.813412
++/run git clone https://github.com/se7en-x230/PieLauncher.git
+
+# 2026-07-12 09:50:55.813629
++/run git clone https://github.com/se7en-x230/PieLauncher.git
+
+# 2026-07-12 09:51:01.926360
++/run cd PieLauncher
+
+# 2026-07-12 09:51:01.926566
++/run cd PieLauncher
+
+# 2026-07-12 09:51:04.787332
++y
+
+# 2026-07-12 09:52:42.324308
++ok now one more update of the readme and a clean git push + tag to add a clean apk to the apk/ fold(
+
+# 2026-07-12 09:53:01.341771
++y
+
+# 2026-07-12 09:53:01.352923
++/run ./gradlew clean
+
+# 2026-07-12 09:53:01.353070
++/run ./gradlew clean
+
+# 2026-07-12 09:53:09.612523
++/run ./gradlew assembleDebug
+
+# 2026-07-12 09:53:09.612684
++/run ./gradlew assembleDebug
+
+# 2026-07-12 09:53:23.542187
++/run mkdir -p apk
+
+# 2026-07-12 09:53:23.542271
++/run mkdir -p apk
+
+# 2026-07-12 09:53:23.755995
++/run cp app/build/outputs/apk/debug/app-debug.apk apk/PieLauncher-v1.0.0.apk
+
+# 2026-07-12 09:53:23.756148
++/run cp app/build/outputs/apk/debug/app-debug.apk apk/PieLauncher-v1.0.0.apk
+
+# 2026-07-12 09:53:24.096857
++/run git add -A
+
+# 2026-07-12 09:53:24.096932
++/run git add -A
