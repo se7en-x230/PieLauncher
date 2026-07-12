@@ -6,6 +6,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.positionChange
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -17,6 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.awaitPointerEventScope
+import androidx.compose.ui.input.pointer.awaitFirstDown
+import androidx.compose.ui.input.pointer.awaitPointerEvent
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 
@@ -121,86 +128,92 @@ BackHandler(enabled = showLibrary) {
                 screenWidth,
                 screenHeight
             ) {
-
-                detectDragGestures(
-
-                    onDragStart = { offset ->
+                awaitPointerEventScope {
+                    while (true) {
+                        val down = awaitFirstDown()
+                        val downPosition = down.position
+                        
                         lastSelectedSlice = -1
                         hasDragged = false
-
+                        
                         controller.layout =
-                            if (offset.x < screenWidth / 2f)
+                            if (downPosition.x < screenWidth / 2f)
                                 LauncherLayout.LEFT_HAND
                             else
                                 LauncherLayout.RIGHT_HAND
 
                         controller.fingerDown(
-                            offset,
+                            downPosition,
                             screenHeight.toFloat()
                         )
                         
                         fingerDown = true
                         longPressTriggered = false
-                    },
+                        lastPosition = downPosition
 
-                    onDrag = { change, dragAmount ->
+                        var dragStarted = false
 
-    lastPosition = change.position
-    hasDragged = true
+                        do {
+                            val event = awaitPointerEvent()
+                            val change = event.changes.firstOrNull() ?: break
+                            
+                            if (change.positionChange() != Offset.Zero) {
+                                hasDragged = true
+                                dragStarted = true
+                                
+                                lastPosition = change.position
 
-    controller.fingerMove(
-        change.position
-    )
+                                controller.fingerMove(
+                                    change.position
+                                )
 
-    val current = controller.selectedSlice()
+                                val current = controller.selectedSlice()
 
-    if (
-        current != -1 &&
-        current != lastSelectedSlice
-    ) {
+                                if (
+                                    current != -1 &&
+                                    current != lastSelectedSlice
+                                ) {
 
-        haptic.performHapticFeedback(
-            HapticFeedbackType.TextHandleMove
-        )
+                                    haptic.performHapticFeedback(
+                                        HapticFeedbackType.TextHandleMove
+                                    )
 
-        lastSelectedSlice = current
-    }
-},
+                                    lastSelectedSlice = current
+                                }
+                            }
+                            
+                        } while (change.pressed)
 
+                        // Finger released
+                        fingerDown = false
+                        
+                        if (longPressTriggered) {
+                            longPressTriggered = false
+                            continue
+                        }
 
-onDragEnd = {
-fingerDown = false
-if (longPressTriggered) {
+                        val slot = controller.selectedSlice()
 
-    longPressTriggered = false
+                        if (slot == -1) {
+                            controller.reset()
+                            continue
+                        }
+                        
+                        configuration
+                            .profiles[controller.currentProfile]
+                            .slots[slot]
+                            ?.let {
 
-    return@detectDragGestures
-}
+                                Launcher.launch(
+                                    context,
+                                    it
+                                )
 
-val slot = controller.selectedSlice()
-
-if (slot == -1) {
-    controller.reset()
-    return@detectDragGestures
-}
-configuration
-    .profiles[controller.currentProfile]
-    .slots[slot]
-    ?.let {
-
-        Launcher.launch(
-            context,
-            it
-        )
-
-        // Reset controller state after launching
-        controller.reset()
-        
-        // Optionally close the launcher activity
-        (context as? android.app.Activity)?.finish()
-    }
+                                controller.reset()
+                                (context as? android.app.Activity)?.finish()
+                            }
                     }
-                )
+                }
             }
     ) {
 
