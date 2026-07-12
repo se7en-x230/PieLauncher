@@ -214,6 +214,10 @@ AppPickerPanel(
         editingSlot = -1
     },
 
+    onOpenWallpaper = {
+        WallpaperLauncher.open(context)
+    },
+
 onAppSelected = { app ->
 
     if (editingSlot == -1) {
@@ -278,9 +282,6 @@ onAppSelected = { app ->
         center = controller.state.center,
         onOpenLibrary = {
             showLibrary = true
-        },
-        onOpenWallpaper = {
-            WallpaperLauncher.open(context)
         }
     )
 }

@@ -12,8 +12,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +36,8 @@ fun AppPickerPanel(
     apps: List<AppInfo>,
     showRemove: Boolean,
     onDismiss: () -> Unit,
-    onAppSelected: (AppInfo?) -> Unit
+    onAppSelected: (AppInfo?) -> Unit,
+    onOpenWallpaper: () -> Unit
 ) {
 var query by remember { mutableStateOf("") }
 
@@ -136,21 +139,41 @@ Box(
 }
                 HorizontalDivider()
 
-                Text(
-                    text = "Cancel",
-                    color = Color.White,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onDismiss()
-                        }
-                        .padding(
-                            horizontal = 20.dp,
-                            vertical = 14.dp
-                        )
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Cancel",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier
+                            .clickable {
+                                onDismiss()
+                            }
+                            .padding(
+                                horizontal = 20.dp,
+                                vertical = 14.dp
+                            )
+                    )
+
+                    Text(
+                        text = "Wallpaper",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier
+                            .clickable {
+                                onOpenWallpaper()
+                                onDismiss()
+                            }
+                            .padding(
+                                horizontal = 20.dp,
+                                vertical = 14.dp
+                            )
+                    )
+                }
             }
         }
     }
