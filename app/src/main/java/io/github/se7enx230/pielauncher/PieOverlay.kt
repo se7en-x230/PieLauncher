@@ -80,7 +80,7 @@ var showLibrary by remember {
         AppRegistry.installedApps(context)
     }
 
-    LaunchedEffect(fingerDown, hasDragged) {
+    LaunchedEffect(fingerDown) {
 
     if (!fingerDown)
         return@LaunchedEffect
@@ -90,11 +90,20 @@ var showLibrary by remember {
 if (!fingerDown)
     return@LaunchedEffect
 
-// Only trigger long-press if user hasn't dragged
-if (!hasDragged) {
-    // Long press without dragging - open wallpaper chooser
+longPressTriggered = true
+
+val slice = controller.selectedSlice()
+
+if (slice != -1) {
+    // Long press on a slice - edit it
+    editingSlot = slice
+    showLibrary = true
+} else if (controller.isInCenter(lastPosition)) {
+    // Long press in center - open app drawer
+    showLibrary = true
+} else if (!hasDragged) {
+    // Long press on wallpaper without dragging - open wallpaper chooser
     WallpaperLauncher.open(context)
-    longPressTriggered = true
 }
 }
     val icons = remember(configuration, controller.currentProfile) {
