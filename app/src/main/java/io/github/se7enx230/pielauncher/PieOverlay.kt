@@ -187,14 +187,14 @@ BackHandler(enabled = showLibrary) {
                         
                         if (longPressTriggered) {
                             longPressTriggered = false
-                            continue
+                            return@awaitEachGesture
                         }
 
                         val slot = controller.selectedSlice()
 
                         if (slot == -1) {
                             controller.reset()
-                            continue
+                            return@awaitEachGesture
                         }
                         
                         configuration
