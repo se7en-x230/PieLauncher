@@ -21,9 +21,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.awaitPointerEventScope
-import androidx.compose.ui.input.pointer.awaitFirstDown
-import androidx.compose.ui.input.pointer.awaitPointerEvent
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 
@@ -128,9 +127,8 @@ BackHandler(enabled = showLibrary) {
                 screenWidth,
                 screenHeight
             ) {
-                awaitPointerEventScope {
-                    while (true) {
-                        val down = awaitFirstDown()
+                awaitEachGesture {
+                    val down = awaitFirstDown()
                         val downPosition = down.position
                         
                         lastSelectedSlice = -1
@@ -212,7 +210,6 @@ BackHandler(enabled = showLibrary) {
                                 controller.reset()
                                 (context as? android.app.Activity)?.finish()
                             }
-                    }
                 }
             }
     ) {
