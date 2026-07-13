@@ -705,3 +705,75 @@
 
 # 2026-07-12 10:40:12.812046
 +y
+
+# 2026-07-12 12:22:54.997047
++/map
+
+# 2026-07-12 12:23:05.561147
++check the project
+
+# 2026-07-12 12:25:20.553605
++y
+
+# 2026-07-12 12:28:08.948351
++quit
+
+# 2026-07-12 12:29:23.160689
++/map
+
+# 2026-07-12 12:29:38.088458
++check project 
+
+# 2026-07-12 14:59:20.767615
++check project
+
+# 2026-07-13 07:42:08.848452
++/map
+
+# 2026-07-13 07:43:08.255070
++library. add the most used app to the top. meaning the search with the most counts ranks the first slots
+
+# 2026-07-13 07:47:26.320518
++/map
+
+# 2026-07-13 07:49:30.267003
++n
+
+# 2026-07-13 07:50:11.007764
++library. add sort by most used app to the top
+
+# 2026-07-13 07:50:22.470929
++y
+
+# 2026-07-13 07:58:15.392390
++/map
+
+# 2026-07-13 07:58:50.707484
++library. add most used apps to the top of the list. sort by most used
+
+# 2026-07-13 07:59:02.584824
++a
+
+# 2026-07-13 08:02:39.027613
++not working. I search and start 3 times an app with l but the first app is still a b c ...
+
+# 2026-07-13 08:03:14.873725
++a
+
+# 2026-07-13 08:05:57.116778
++also double check the project. all works as expected but sometimes after I launched an app and close that to get back to the home screen the screen is black for a min till the the launcher is active again. as if it restarts ...
+
+# 2026-07-13 08:06:25.286331
++A
+
+# 2026-07-13 10:00:20.489344
++good. add commit and push to git
+
+# 2026-07-13 10:00:28.759918
++y
+
+# 2026-07-13 10:00:28.773519
++/run git add -A
+
+# 2026-07-13 10:00:28.773674
++/run git add -A
