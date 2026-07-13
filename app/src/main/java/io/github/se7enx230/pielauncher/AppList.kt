@@ -24,9 +24,7 @@ LazyColumn(
         .padding(bottom = 64.dp)
 ) {
 
-    items(
-        apps.sortedBy { it.label.lowercase() }
-    ) { app ->
+    items(apps) { app ->
 
         Text(                text = app.label,
                 fontSize = 20.sp,
