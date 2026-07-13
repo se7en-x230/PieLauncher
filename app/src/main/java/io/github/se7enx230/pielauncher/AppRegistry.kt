@@ -13,6 +13,8 @@ object AppRegistry {
             addCategory(Intent.CATEGORY_LAUNCHER)
         }
 
+        val usageCounts = ConfigurationStore.getAllUsageCounts(context)
+
         return context.packageManager
             .queryIntentActivities(intent, 0)
             .map {
@@ -24,9 +26,13 @@ object AppRegistry {
                 )
 
             }
-            .sortedBy {
-                it.label.lowercase()
-            }
+            .sortedWith(
+                compareByDescending<AppInfo> { 
+                    usageCounts[it.packageName] ?: 0 
+                }.thenBy { 
+                    it.label.lowercase() 
+                }
+            )
     }
 
     fun find(

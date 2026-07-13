@@ -5,12 +5,15 @@ import android.content.Context
 object ConfigurationStore {
 
     private const val PREFS = "pie_launcher"
+    private const val USAGE_PREFS = "pie_launcher_usage"
     private const val PROFILE_COUNT = 3
 
     private fun key(
         profile: Int,
         slot: Int
     ) = "profile_${profile}_slot_$slot"
+
+    private fun usageKey(packageName: String) = "usage_$packageName"
 
     fun load(
         context: Context
@@ -128,5 +131,42 @@ object ConfigurationStore {
 
             apply()
         }
+    }
+
+    fun getUsageCount(
+        context: Context,
+        packageName: String
+    ): Int {
+        val prefs = context.getSharedPreferences(
+            USAGE_PREFS,
+            Context.MODE_PRIVATE
+        )
+        return prefs.getInt(usageKey(packageName), 0)
+    }
+
+    fun incrementUsageCount(
+        context: Context,
+        packageName: String
+    ) {
+        val prefs = context.getSharedPreferences(
+            USAGE_PREFS,
+            Context.MODE_PRIVATE
+        )
+        val currentCount = prefs.getInt(usageKey(packageName), 0)
+        prefs.edit().putInt(usageKey(packageName), currentCount + 1).apply()
+    }
+
+    fun getAllUsageCounts(
+        context: Context
+    ): Map<String, Int> {
+        val prefs = context.getSharedPreferences(
+            USAGE_PREFS,
+            Context.MODE_PRIVATE
+        )
+        return prefs.all.mapNotNull { (key, value) ->
+            if (key.startsWith("usage_") && value is Int) {
+                key.removePrefix("usage_") to value
+            } else null
+        }.toMap()
     }
 }

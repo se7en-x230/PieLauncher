@@ -24,6 +24,10 @@ object Launcher {
             }
 
             context.startActivity(intent)
+            
+            // Track usage
+            ConfigurationStore.incrementUsageCount(context, app.packageName)
+            
             true
 
         } catch (e: Exception) {
